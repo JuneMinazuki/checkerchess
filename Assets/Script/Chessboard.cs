@@ -126,9 +126,15 @@ public class Chessboard : MonoBehaviour
         chessPieces[7, 1] = SpawnSinglePiece(ChessPieceType.Knight, whiteTeam);
         chessPieces[8, 1] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
         for (int i = 1; i < TILE_COUNT_X - 1; i++)
-        {
             chessPieces[i, 2] = SpawnSinglePiece(ChessPieceType.Pawn, whiteTeam);
-        }
+
+        //White Team
+        for (int i = 1; i < TILE_COUNT_X - 1; i+=2)
+            chessPieces[i, 8] = SpawnSinglePiece(ChessPieceType.QueenChecker, blackTeam);
+        for (int i = 2; i < TILE_COUNT_X - 1; i+=2)
+            chessPieces[i, 7] = SpawnSinglePiece(ChessPieceType.Checker, blackTeam);
+        for (int i = 1; i < TILE_COUNT_X - 1; i+=2)
+            chessPieces[i, 6] = SpawnSinglePiece(ChessPieceType.Checker, blackTeam);
     }
 
     private ChessPiece SpawnSinglePiece(ChessPieceType type, int team)
