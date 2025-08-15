@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -72,7 +73,7 @@ public class Chessboard : MonoBehaviour
     // Board Generation
     private void GenerateAllTiles(float tileSize, int tileCountX, int tileCountY)
     {
-        yOffset += transform.position.y;
+        yOffset += transform.position.z;
         bounds = new Vector3(tileCountX / 2 * tileSize, 0, tileCountX / 2 * tileSize) + boardCenter;
 
         tiles = new GameObject[tileCountX, tileCountY];
