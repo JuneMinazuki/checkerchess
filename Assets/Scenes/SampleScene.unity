@@ -371,9 +371,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Chessboard
   tileMaterial: {fileID: 2100000, guid: e7837c7c641144cf59ff212132fc5ad6, type: 2}
-  tileSize: 1
+  tileSize: 0.88
   yOffset: 0.2
-  boardCenter: {x: 0, y: -200, z: 0}
+  boardCenter: {x: 0, y: 4.4, z: 0}
+  prefabs:
+  - {fileID: 5613462401677398894, guid: be5cda430beef44559a07c1396f7a22d, type: 3}
+  - {fileID: 3597148433405763534, guid: a6bc8f33ee45e4cdaa49eae7437cd358, type: 3}
+  - {fileID: 3053128952437822582, guid: 17b8e6bd7365d418cbbe635c00d08482, type: 3}
+  - {fileID: 4727303266654297923, guid: e03fd7ee6708a4d218e93b57a9ec8b41, type: 3}
+  - {fileID: 7989325567646526276, guid: ea503340ea5ce452785b2c076755cdaf, type: 3}
+  - {fileID: 1544691235138679494, guid: 41328ab2f3dd342d18d0e47eeda46b17, type: 3}
+  - {fileID: 5055510507014764833, guid: 4333f428279754fa795143bd868e0025, type: 3}
+  - {fileID: 6343466622803292975, guid: 631b14d02f9e64751bc9907ec00c3882, type: 3}
 --- !u!212 &975536235
 SpriteRenderer:
   m_ObjectHideFlags: 0

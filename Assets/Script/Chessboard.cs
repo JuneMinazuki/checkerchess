@@ -9,6 +9,9 @@ public class Chessboard : MonoBehaviour
     [SerializeField] private float yOffset = 0.2f;
     [SerializeField] private Vector3 boardCenter = Vector3.zero;
 
+    [Header("Prefabs & Materials")]
+    [SerializeField] private GameObject[] prefabs;
+
     //LOGIC
     private const int TILE_COUNT_X = 10;
     private const int TILE_COUNT_Y = 10;
