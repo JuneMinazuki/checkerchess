@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class Chessboard : MonoBehaviour
 {
+    [Header("Art And Sprite")]
+    [SerializeField] private Material tileMaterial;
+
     //LOGIC
     private const int TILE_COUNT_X = 10;
     private const int TILE_COUNT_Y = 10;
@@ -27,7 +30,7 @@ public class Chessboard : MonoBehaviour
 
         Mesh mesh = new Mesh();
         tileObject.AddComponent<MeshFilter>().mesh = mesh;
-        tileObject.AddComponent<MeshRenderer>();
+        tileObject.AddComponent<MeshRenderer>().material = tileMaterial;
 
         Vector3[] vertices = new Vector3[4];
         vertices[0] = new Vector3(x * tileSize, y * tileSize, 0);
@@ -40,6 +43,8 @@ public class Chessboard : MonoBehaviour
         mesh.vertices = vertices;
         mesh.triangles = tris;
 
+        mesh.RecalculateNormals();
+        
         tileObject.AddComponent<BoxCollider>();
 
         return tileObject;
