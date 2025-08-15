@@ -105,6 +105,22 @@ public class Chessboard : MonoBehaviour
         return tileObject;
     }
 
+    // Pieces Spawning
+    private void SpawnAllPieces()
+    {
+        
+    }
+
+    private ChessPiece SpawnSinglePiece(ChessPieceType type, int team)
+    {
+        ChessPiece cp = Instantiate(prefabs[(int)type - 1], transform).GetComponent<ChessPiece>();
+
+        cp.type = type;
+        cp.team = team;
+
+        return cp;
+    }
+
     // Operation
     private Vector2Int LookupTileIndex(GameObject hitInfo)
     {
