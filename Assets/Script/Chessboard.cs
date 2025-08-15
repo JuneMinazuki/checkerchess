@@ -13,6 +13,7 @@ public class Chessboard : MonoBehaviour
     [SerializeField] private GameObject[] prefabs;
 
     //LOGIC
+    private ChessPiece[,] chessPieces;
     private const int TILE_COUNT_X = 10;
     private const int TILE_COUNT_Y = 10;
     private GameObject[,] tiles;
@@ -23,6 +24,8 @@ public class Chessboard : MonoBehaviour
     private void Awake()
     {
         GenerateAllTiles(tileSize, TILE_COUNT_X, TILE_COUNT_Y);
+
+        SpawnAllPieces();
     }
 
     private void Update()
@@ -108,7 +111,23 @@ public class Chessboard : MonoBehaviour
     // Pieces Spawning
     private void SpawnAllPieces()
     {
-        
+        chessPieces = new ChessPiece[TILE_COUNT_X, TILE_COUNT_Y];
+
+        int whiteTeam = 0, blackTeam = 1;
+
+        //White Team
+        chessPieces[0, 0] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
+        chessPieces[1, 0] = SpawnSinglePiece(ChessPieceType.Knight, whiteTeam);
+        chessPieces[2, 0] = SpawnSinglePiece(ChessPieceType.Bishop, whiteTeam);
+        chessPieces[3, 0] = SpawnSinglePiece(ChessPieceType.King, whiteTeam);
+        chessPieces[4, 0] = SpawnSinglePiece(ChessPieceType.Queen, whiteTeam);
+        chessPieces[5, 0] = SpawnSinglePiece(ChessPieceType.Bishop, whiteTeam);
+        chessPieces[6, 0] = SpawnSinglePiece(ChessPieceType.Knight, whiteTeam);
+        chessPieces[7, 0] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
+        for (int i = 0; i < TILE_COUNT_X; i++)
+        {
+            chessPieces[i, 2] = SpawnSinglePiece(ChessPieceType.Pawn, whiteTeam);
+        }
     }
 
     private ChessPiece SpawnSinglePiece(ChessPieceType type, int team)
