@@ -372,7 +372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Chessboard
   tileMaterial: {fileID: 2100000, guid: e7837c7c641144cf59ff212132fc5ad6, type: 2}
   tileSize: 0.88
-  yOffset: 0.2
+  yOffset: -0.2
   boardCenter: {x: 0, y: 4.4, z: 0}
   prefabs:
   - {fileID: 5613462401677398894, guid: be5cda430beef44559a07c1396f7a22d, type: 3}

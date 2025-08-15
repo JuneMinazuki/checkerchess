@@ -26,6 +26,7 @@ public class Chessboard : MonoBehaviour
         GenerateAllTiles(tileSize, TILE_COUNT_X, TILE_COUNT_Y);
 
         SpawnAllPieces();
+        PositionAllPieces();
     }
 
     private void Update()
@@ -116,15 +117,15 @@ public class Chessboard : MonoBehaviour
         int whiteTeam = 0, blackTeam = 1;
 
         //White Team
-        chessPieces[0, 0] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
-        chessPieces[1, 0] = SpawnSinglePiece(ChessPieceType.Knight, whiteTeam);
-        chessPieces[2, 0] = SpawnSinglePiece(ChessPieceType.Bishop, whiteTeam);
-        chessPieces[3, 0] = SpawnSinglePiece(ChessPieceType.King, whiteTeam);
-        chessPieces[4, 0] = SpawnSinglePiece(ChessPieceType.Queen, whiteTeam);
-        chessPieces[5, 0] = SpawnSinglePiece(ChessPieceType.Bishop, whiteTeam);
-        chessPieces[6, 0] = SpawnSinglePiece(ChessPieceType.Knight, whiteTeam);
-        chessPieces[7, 0] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
-        for (int i = 0; i < TILE_COUNT_X; i++)
+        chessPieces[1, 1] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
+        chessPieces[2, 1] = SpawnSinglePiece(ChessPieceType.Knight, whiteTeam);
+        chessPieces[3, 1] = SpawnSinglePiece(ChessPieceType.Bishop, whiteTeam);
+        chessPieces[4, 1] = SpawnSinglePiece(ChessPieceType.King, whiteTeam);
+        chessPieces[5, 1] = SpawnSinglePiece(ChessPieceType.Queen, whiteTeam);
+        chessPieces[6, 1] = SpawnSinglePiece(ChessPieceType.Bishop, whiteTeam);
+        chessPieces[7, 1] = SpawnSinglePiece(ChessPieceType.Knight, whiteTeam);
+        chessPieces[8, 1] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
+        for (int i = 1; i < TILE_COUNT_X - 1; i++)
         {
             chessPieces[i, 2] = SpawnSinglePiece(ChessPieceType.Pawn, whiteTeam);
         }
@@ -138,6 +139,27 @@ public class Chessboard : MonoBehaviour
         cp.team = team;
 
         return cp;
+    }
+
+    // Positioning
+    private void PositionAllPieces()
+    {
+        for (int x = 0; x < TILE_COUNT_X; x++)
+            for (int y = 0; y < TILE_COUNT_Y; y++)
+                if (chessPieces[x, y] != null)
+                    PositionSinglePiece(x, y, true);
+    }
+
+    private void PositionSinglePiece(int x, int y, bool force = false)
+    {
+        chessPieces[x, y].currentX = x;
+        chessPieces[x, y].currentY = y;
+        chessPieces[x, y].transform.position = GetTileCenter(x, y);  
+    }
+
+    private Vector3 GetTileCenter(int x, int y)
+    {
+        return new Vector3(x * tileSize, y * tileSize, yOffset) - bounds + new Vector3(tileSize / 2, tileSize / 2, 0);
     }
 
     // Operation

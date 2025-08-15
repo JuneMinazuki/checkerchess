@@ -13,6 +13,18 @@ PrefabInstance:
       value: queen_checker
       objectReference: {fileID: 0}
     - target: {fileID: 8742538545776668643, guid: db7b8344a215f4467865fe76c0f5863d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742538545776668643, guid: db7b8344a215f4467865fe76c0f5863d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742538545776668643, guid: db7b8344a215f4467865fe76c0f5863d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742538545776668643, guid: db7b8344a215f4467865fe76c0f5863d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.7517618
       objectReference: {fileID: 0}

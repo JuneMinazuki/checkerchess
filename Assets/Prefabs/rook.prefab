@@ -13,6 +13,18 @@ PrefabInstance:
       value: rook
       objectReference: {fileID: 0}
     - target: {fileID: 8742538545776668643, guid: 0e00d3f7d400b402785c876bf92d74f8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742538545776668643, guid: 0e00d3f7d400b402785c876bf92d74f8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742538545776668643, guid: 0e00d3f7d400b402785c876bf92d74f8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 8742538545776668643, guid: 0e00d3f7d400b402785c876bf92d74f8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.2652192
       objectReference: {fileID: 0}
