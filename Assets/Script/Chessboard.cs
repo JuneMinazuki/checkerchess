@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem.iOS;
+using UnityEngine.InputSystem;
 
 public class Chessboard : MonoBehaviour
 {
@@ -22,13 +22,13 @@ public class Chessboard : MonoBehaviour
     {
         if (!currentCamera)
         {
-            currentCamera = Camera.current;
+            currentCamera = Camera.main;
             return;
         }
 
         RaycastHit info;
-        Ray ray = currentCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out info, 100, LayerMask.GetMask("Tile")))
+        Ray ray = currentCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (Physics.Raycast(ray, out info, 100, LayerMask.GetMask("Tile", "Hover")))
         {
             // Get index of tile that the mouse is touching
             Vector2Int hitPosition = LookupTileIndex(info.transform.gameObject);
