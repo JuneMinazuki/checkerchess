@@ -1,4 +1,7 @@
 using System;
+using NUnit.Framework.Constraints;
+using Unity.Collections;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,6 +18,7 @@ public class Chessboard : MonoBehaviour
 
     //LOGIC
     private ChessPiece[,] chessPieces;
+    private ChessPiece currentlyDragging;
     private const int TILE_COUNT_X = 10;
     private const int TILE_COUNT_Y = 10;
     private GameObject[,] tiles;
@@ -58,6 +62,35 @@ public class Chessboard : MonoBehaviour
                 tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Tile");
                 currentHover = hitPosition;
                 tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
+            }
+
+            // Mouse Pressed
+            if (Mouse.current.leftButton.wasPressedThisFrame)
+            {
+                //To Select Chess Piece
+                if (currentlyDragging == null)
+                {
+                    if (chessPieces[hitPosition.x, hitPosition.y] != null)
+                    {
+                        // Check If It Is Our Turn (Currently Always True)
+                        if (true)
+                        {
+                            currentlyDragging = chessPieces[hitPosition.x, hitPosition.y];
+                        }
+                    }
+                }
+                //To Select Where Piece Move To
+                else if (currentlyDragging != null)
+                {
+                    //Vector2Int previousPostion = new Vector2Int(currentlyDragging.currentX, currentlyDragging.currentY);
+
+                    bool validMove = MoveTo(currentlyDragging, hitPosition.x, hitPosition.y);
+                    currentlyDragging = null;
+                    if (!validMove)
+                    {
+                        currentlyDragging = chessPieces[hitPosition.x, hitPosition.y];
+                    }
+                }
             }
         }
         else
@@ -130,11 +163,11 @@ public class Chessboard : MonoBehaviour
             chessPieces[i, 2] = SpawnSinglePiece(ChessPieceType.Pawn, whiteTeam);
 
         //White Team
-        for (int i = 1; i < TILE_COUNT_X - 1; i+=2)
+        for (int i = 1; i < TILE_COUNT_X - 1; i += 2)
             chessPieces[i, 8] = SpawnSinglePiece(ChessPieceType.QueenChecker, blackTeam);
-        for (int i = 2; i < TILE_COUNT_X - 1; i+=2)
+        for (int i = 2; i < TILE_COUNT_X - 1; i += 2)
             chessPieces[i, 7] = SpawnSinglePiece(ChessPieceType.Checker, blackTeam);
-        for (int i = 1; i < TILE_COUNT_X - 1; i+=2)
+        for (int i = 1; i < TILE_COUNT_X - 1; i += 2)
             chessPieces[i, 6] = SpawnSinglePiece(ChessPieceType.Checker, blackTeam);
     }
 
@@ -161,7 +194,7 @@ public class Chessboard : MonoBehaviour
     {
         chessPieces[x, y].currentX = x;
         chessPieces[x, y].currentY = y;
-        chessPieces[x, y].transform.position = GetTileCenter(x, y);  
+        chessPieces[x, y].transform.position = GetTileCenter(x, y);
     }
 
     private Vector3 GetTileCenter(int x, int y)
@@ -170,6 +203,29 @@ public class Chessboard : MonoBehaviour
     }
 
     // Operation
+    private bool MoveTo(ChessPiece cp, int x, int y)
+    {
+        Vector2Int previousPosition = new Vector2Int(cp.currentX, cp.currentY);
+
+        // Check If Target Position Is Occupied By Another Piece
+        if (chessPieces[x, y] != null)
+        {
+            ChessPiece ocp = chessPieces[x, y];
+
+            if (cp.team == ocp.team)
+            {
+                return false;
+            }
+        }
+
+        chessPieces[x, y] = cp;
+        chessPieces[previousPosition.x, previousPosition.y] = null;
+
+        PositionSinglePiece(x, y);
+
+        return true;
+    }
+
     private Vector2Int LookupTileIndex(GameObject hitInfo)
     {
         for (int x = 0; x < TILE_COUNT_X; x++)
