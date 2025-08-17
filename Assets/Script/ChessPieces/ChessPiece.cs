@@ -38,7 +38,7 @@ public class ChessPiece : MonoBehaviour
         }
     }
 
-     public virtual void SetScale(Vector3 scale, bool force = false)
+    public virtual void SetScale(Vector3 scale, bool force = false)
     {
         desiredScale = scale;
         if (force)

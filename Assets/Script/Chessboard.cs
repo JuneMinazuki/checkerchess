@@ -1,7 +1,4 @@
-using System;
-using NUnit.Framework.Constraints;
-using Unity.Collections;
-using UnityEditor.Tilemaps;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,12 +9,16 @@ public class Chessboard : MonoBehaviour
     [SerializeField] private float tileSize = 1.0f;
     [SerializeField] private float yOffset = 0.2f;
     [SerializeField] private Vector3 boardCenter = Vector3.zero;
+    [SerializeField] private float deathSize = 1.5f;
+    [SerializeField] private float deathSpacing = 1.5f;
 
     [Header("Prefabs & Materials")]
     [SerializeField] private GameObject[] prefabs;
 
     //LOGIC
     private ChessPiece[,] chessPieces;
+    private List<ChessPiece> deadWhites = new List<ChessPiece>();
+    private List<ChessPiece> deadBlacks = new List<ChessPiece>();
     private ChessPiece currentlyDragging;
     private const int TILE_COUNT_X = 10;
     private const int TILE_COUNT_Y = 10;
@@ -212,9 +213,24 @@ public class Chessboard : MonoBehaviour
         {
             ChessPiece ocp = chessPieces[x, y];
 
+            // If same team
             if (cp.team == ocp.team)
             {
                 return false;
+            }
+
+            // If different team
+            if (ocp.team == 0)
+            {
+                deadWhites.Add(ocp);
+                ocp.SetScale(Vector3.one * deathSize);
+                ocp.SetPosition(new Vector3(-18, -2, yOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.right);
+            }
+            else
+            {
+                deadBlacks.Add(ocp);
+                ocp.SetScale(Vector3.one * deathSize);
+                ocp.SetPosition(new Vector3(-18, 2, yOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.right);
             }
         }
 
