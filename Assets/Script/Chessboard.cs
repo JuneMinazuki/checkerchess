@@ -194,7 +194,7 @@ public class Chessboard : MonoBehaviour
     {
         chessPieces[x, y].currentX = x;
         chessPieces[x, y].currentY = y;
-        chessPieces[x, y].transform.position = GetTileCenter(x, y);
+        chessPieces[x, y].SetPosition(GetTileCenter(x, y));
     }
 
     private Vector3 GetTileCenter(int x, int y)
