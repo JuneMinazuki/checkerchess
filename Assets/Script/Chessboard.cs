@@ -9,8 +9,8 @@ public class Chessboard : MonoBehaviour
     [SerializeField] private float tileSize = 1.0f;
     [SerializeField] private float yOffset = 0.2f;
     [SerializeField] private Vector3 boardCenter = Vector3.zero;
-    [SerializeField] private float deathSize = 1.5f;
-    [SerializeField] private float deathSpacing = 1.5f;
+    [SerializeField] private float deathSize = 1.75f;
+    [SerializeField] private float deathSpacing = 0.37f;
 
     [Header("Prefabs & Materials")]
     [SerializeField] private GameObject[] prefabs;
@@ -224,13 +224,13 @@ public class Chessboard : MonoBehaviour
             {
                 deadWhites.Add(ocp);
                 ocp.SetScale(Vector3.one * deathSize);
-                ocp.SetPosition(new Vector3(-18, -2, yOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.right);
+                ocp.SetPosition(new Vector3(-7.92f, -0.88f, yOffset) + deathSpacing * (deadWhites.Count - 1) * Vector3.right);
             }
             else
             {
                 deadBlacks.Add(ocp);
                 ocp.SetScale(Vector3.one * deathSize);
-                ocp.SetPosition(new Vector3(-18, 2, yOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.right);
+                ocp.SetPosition(new Vector3(-7.92f, 0.88f, yOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.right);
             }
         }
 
