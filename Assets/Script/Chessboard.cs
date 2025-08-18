@@ -224,13 +224,19 @@ public class Chessboard : MonoBehaviour
             {
                 deadWhites.Add(ocp);
                 ocp.SetScale(Vector3.one * deathSize);
-                ocp.SetPosition(new Vector3(-7.92f, -0.88f, zOffset) + deathSpacing * (deadWhites.Count - 1) * Vector3.right);
+                if (deadWhites.Count <= 8)
+                    ocp.SetPosition(new Vector3(-7.92f, -0.88f, zOffset) + deathSpacing * (deadWhites.Count - 1) * Vector3.right);
+                else
+                    ocp.SetPosition(new Vector3(-7.92f, -1.38f, zOffset) + deathSpacing * (deadWhites.Count - 9) * Vector3.right);
             }
             else
             {
                 deadBlacks.Add(ocp);
                 ocp.SetScale(Vector3.one * deathSize);
-                ocp.SetPosition(new Vector3(-7.92f, 0.88f, zOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.right);
+                if (deadBlacks.Count <= 8)
+                    ocp.SetPosition(new Vector3(-7.92f, 0.88f, zOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.right);
+                else
+                    ocp.SetPosition(new Vector3(-7.92f, 0.38f, zOffset) + deathSpacing * (deadBlacks.Count - 9) * Vector3.right);
             }
         }
 
