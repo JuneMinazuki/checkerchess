@@ -14,11 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3888481672020999207, guid: db7b8344a215f4467865fe76c0f5863d, type: 3}
       propertyPath: m_Name
-      value: queen_checker
+      value: Queen Checker
       objectReference: {fileID: 0}
     - target: {fileID: -3888481672020999207, guid: db7b8344a215f4467865fe76c0f5863d, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 8742538545776668643, guid: db7b8344a215f4467865fe76c0f5863d, type: 3}
       propertyPath: m_LocalScale.x
