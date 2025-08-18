@@ -7,7 +7,7 @@ public class Chessboard : MonoBehaviour
     [Header("Art And Sprite")]
     [SerializeField] private Material tileMaterial;
     [SerializeField] private float tileSize = 1.0f;
-    [SerializeField] private float yOffset = 0.2f;
+    [SerializeField] private float zOffset = -0.2f;
     [SerializeField] private Vector3 boardCenter = Vector3.zero;
     [SerializeField] private float deathSize = 1.75f;
     [SerializeField] private float deathSpacing = 0.37f;
@@ -107,7 +107,7 @@ public class Chessboard : MonoBehaviour
     // Board Generation
     private void GenerateAllTiles(float tileSize, int tileCountX, int tileCountY)
     {
-        yOffset += transform.position.z;
+        zOffset += transform.position.z;
         bounds = new Vector3(tileCountX / 2 * tileSize, 0, tileCountX / 2 * tileSize) + boardCenter;
 
         tiles = new GameObject[tileCountX, tileCountY];
@@ -126,10 +126,10 @@ public class Chessboard : MonoBehaviour
         tileObject.AddComponent<MeshRenderer>().material = tileMaterial;
 
         Vector3[] vertices = new Vector3[4];
-        vertices[0] = new Vector3(x * tileSize, y * tileSize, yOffset) - bounds;
-        vertices[1] = new Vector3(x * tileSize, (y + 1) * tileSize, yOffset) - bounds;
-        vertices[2] = new Vector3((x + 1) * tileSize, y * tileSize, yOffset) - bounds;
-        vertices[3] = new Vector3((x + 1) * tileSize, (y + 1) * tileSize, yOffset) - bounds;
+        vertices[0] = new Vector3(x * tileSize, y * tileSize, zOffset) - bounds;
+        vertices[1] = new Vector3(x * tileSize, (y + 1) * tileSize, zOffset) - bounds;
+        vertices[2] = new Vector3((x + 1) * tileSize, y * tileSize, zOffset) - bounds;
+        vertices[3] = new Vector3((x + 1) * tileSize, (y + 1) * tileSize, zOffset) - bounds;
 
         int[] tris = new int[] { 0, 1, 2, 1, 3, 2 };
 
@@ -200,7 +200,7 @@ public class Chessboard : MonoBehaviour
 
     private Vector3 GetTileCenter(int x, int y)
     {
-        return new Vector3(x * tileSize, y * tileSize, yOffset) - bounds + new Vector3(tileSize / 2, tileSize / 2, 0);
+        return new Vector3(x * tileSize, y * tileSize, zOffset) - bounds + new Vector3(tileSize / 2, tileSize / 2, 0);
     }
 
     // Operation
@@ -224,13 +224,13 @@ public class Chessboard : MonoBehaviour
             {
                 deadWhites.Add(ocp);
                 ocp.SetScale(Vector3.one * deathSize);
-                ocp.SetPosition(new Vector3(-7.92f, -0.88f, yOffset) + deathSpacing * (deadWhites.Count - 1) * Vector3.right);
+                ocp.SetPosition(new Vector3(-7.92f, -0.88f, zOffset) + deathSpacing * (deadWhites.Count - 1) * Vector3.right);
             }
             else
             {
                 deadBlacks.Add(ocp);
                 ocp.SetScale(Vector3.one * deathSize);
-                ocp.SetPosition(new Vector3(-7.92f, 0.88f, yOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.right);
+                ocp.SetPosition(new Vector3(-7.92f, 0.88f, zOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.right);
             }
         }
 
