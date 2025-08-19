@@ -17,8 +17,8 @@ public class Chessboard : MonoBehaviour
 
     //LOGIC
     private ChessPiece[,] chessPieces;
-    private List<ChessPiece> deadWhites = new();
-    private List<ChessPiece> deadBlacks = new();
+    private readonly List<ChessPiece> deadWhites = new();
+    private readonly List<ChessPiece> deadBlacks = new();
     private ChessPiece currentlyDragging;
     private List<Vector2Int> availableMoves = new();
     private const int TILE_COUNT_X = 10;
@@ -265,6 +265,9 @@ public class Chessboard : MonoBehaviour
 
     private bool MoveTo(ChessPiece cp, int x, int y)
     {
+        if (!ContainsValidMove(ref availableMoves, new Vector2(x, y)))
+            return false;
+            
         Vector2Int previousPosition = new(cp.currentX, cp.currentY);
 
         // Check If Target Position Is Occupied By Another Piece
