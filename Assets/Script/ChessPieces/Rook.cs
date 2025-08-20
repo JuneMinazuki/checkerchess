@@ -7,51 +7,32 @@ public class Rook : ChessPiece
     {
         List<Vector2Int> r = new();
 
-        // Move up
-        for (int i = currentY + 1; i <= tileCountY - 2; i++)
+        // Directions: Up, Down, Left, Right
+        Vector2Int[] directions = {Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right};
+
+        foreach (Vector2Int dir in directions)
         {
-            if (board[currentX, i] == null)
-                r.Add(new Vector2Int(currentX, i));
-            else
+            for (int i = 1; i < 8; i++)
             {
-                if (board[currentX, i].team != team)
-                    r.Add(new Vector2Int(currentX, i));
-                break;
+                int nextX = currentX + dir.x * i;
+                int nextY = currentY + dir.y * i;
+
+                // Check if the tile is within the board boundaries
+                if (nextX < 1 || nextX >= 9 || nextY < 1 || nextY >= 9)
+                    break;
+
+                // If the tile is empty
+                if (board[nextX, nextY] == null)
+                    r.Add(new Vector2Int(nextX, nextY));
+                // If the tile has a piece
+                else
+                {
+                    if (board[nextX, nextY].team != team)
+                        r.Add(new Vector2Int(nextX, nextY));
+                    break;
+                }
             }
         }
-
-        // Move down
-        for (int i = currentY - 1; i >= 1; i--)
-            if (board[currentX, i] == null)
-                r.Add(new Vector2Int(currentX, i));
-            else
-            {
-                if (board[currentX, i].team != team)
-                    r.Add(new Vector2Int(currentX, i));
-                break;
-            }
-
-        // Move left
-        for (int i = currentX - 1; i >= 1; i--)
-            if (board[i, currentY] == null)
-                r.Add(new Vector2Int(i, currentY));
-            else
-            {
-                if (board[i, currentY].team != team)
-                    r.Add(new Vector2Int(i, currentY));
-                break;
-            }
-
-        // Move right
-        for (int i = currentX + 1; i <= tileCountX - 2; i++)
-            if (board[i, currentY] == null)
-                r.Add(new Vector2Int(i, currentY));
-            else
-            {
-                if (board[i, currentY].team != team)
-                    r.Add(new Vector2Int(i, currentY));
-                break;
-            }
 
         return r;
     }
