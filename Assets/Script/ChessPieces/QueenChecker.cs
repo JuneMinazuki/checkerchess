@@ -1,6 +1,64 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class QueenChecker : ChessPiece
 {
+    public override List<Vector2Int> GetAvailableMoves(ref ChessPiece[,] board, int tileCountX, int tileCountY)
+    {
+        List<Vector2Int> moves = new();
 
+        // Normal movement
+        AddNormalMoves(moves, board, tileCountX, tileCountY);
+
+        // Capture by jumping over
+        AddJumpMoves(moves, board, tileCountX, tileCountY);
+
+        return moves;
+    }
+
+    private void AddNormalMoves(List<Vector2Int> moves, ChessPiece[,] board, int tileCountX, int tileCountY)
+    {
+        Vector2Int[] possibleMoves = new Vector2Int[]
+        {
+            new (1,0), new (-1,0), new (0,1), new (0,-1),
+            new (1,1), new (-1,1), new (1,-1), new (-1,-1),
+        };
+
+        foreach (Vector2Int move in possibleMoves)
+        {
+            int nextX = currentX + move.x;
+            int nextY = currentY + move.y;
+
+            // Check if the new position is within the board boundaries.
+            if (nextX >= 1 && nextX < tileCountX - 1 && nextY >= 1 && nextY < tileCountY - 1)
+                // Add the move if the tile is empty or contains an opponent's piece.
+                if (board[nextX, nextY] == null)
+                    moves.Add(new Vector2Int(nextX, nextY));
+        }
+    }
+
+    private void AddJumpMoves(List<Vector2Int> moves, ChessPiece[,] board, int tileCountX, int tileCountY)
+    {
+        // Define all possible jump directions (x, y)
+        Vector2Int[] jumpDirections = new Vector2Int[]
+        {
+            new (1,0), new (-1,0), new (0,1), new (0,-1),
+            new (1,1), new (-1,1), new (1,-1), new (-1,-1),
+        };
+
+        foreach (var jumpDir in jumpDirections)
+        {
+            Vector2Int jumpOver = new(currentX + jumpDir.x, currentY + jumpDir.y);
+            Vector2Int jumpTo = new(currentX + jumpDir.x * 2, currentY + jumpDir.y * 2);
+
+            // Check if the jump-to tile is on the board and empty
+            if (IsOnBoard(jumpTo, tileCountX, tileCountY, 0) && board[jumpTo.x, jumpTo.y] == null && board[jumpOver.x, jumpOver.y] != null && board[jumpOver.x, jumpOver.y].team != team)
+                moves.Add(jumpTo);
+        }
+    }
+
+    private bool IsOnBoard(Vector2Int position, int tileCountX, int tileCountY, int edge = 1)
+    {
+        return position.x >= edge && position.x < tileCountX - edge && position.y >= edge && position.y < tileCountY - edge;
+    }
 }
