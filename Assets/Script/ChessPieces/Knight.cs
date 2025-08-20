@@ -5,7 +5,7 @@ public class Knight : ChessPiece
 {
     public override List<Vector2Int> GetAvailableMoves(ref ChessPiece[,] board, int tileCountX, int tileCountY)
     {
-        List<Vector2Int> r = new();
+        List<Vector2Int> moves = new();
 
         Vector2Int[] possibleMoves = new Vector2Int[]{new(2, 1), new(2, -1), new (-2, 1), new (-2, -1), new (1, 2), new (-1, 2), new (1, -2), new (-1, -2)};
 
@@ -18,9 +18,9 @@ public class Knight : ChessPiece
             if (nextX >= 1 && nextX < tileCountX - 1 && nextY >= 1 && nextY < tileCountY - 1)
                 // Add the move if the tile is empty or contains an opponent's piece.
                 if (board[nextX, nextY] == null || board[nextX, nextY].team != team)
-                    r.Add(new Vector2Int(nextX, nextY));
+                    moves.Add(new Vector2Int(nextX, nextY));
         }    
 
-        return r;
+        return moves;
     }
 }

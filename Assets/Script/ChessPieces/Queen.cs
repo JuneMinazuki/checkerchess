@@ -5,7 +5,7 @@ public class Queen : ChessPiece
 {
      public override List<Vector2Int> GetAvailableMoves(ref ChessPiece[,] board, int tileCountX, int tileCountY)
     {
-        List<Vector2Int> r = new();
+        List<Vector2Int> moves = new();
 
         // Directions: Up, Down, Left, Right, Diagonally
         Vector2Int[] directions = {Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right, new(1,1), new(1, -1), new(-1, 1), new(-1, -1)};
@@ -23,17 +23,17 @@ public class Queen : ChessPiece
 
                 // If the tile is empty
                 if (board[nextX, nextY] == null)
-                    r.Add(new Vector2Int(nextX, nextY));
+                    moves.Add(new Vector2Int(nextX, nextY));
                 // If the tile has a piece
                 else
                 {
                     if (board[nextX, nextY].team != team)
-                        r.Add(new Vector2Int(nextX, nextY));
+                        moves.Add(new Vector2Int(nextX, nextY));
                     break;
                 }
             }
         }
 
-        return r;
+        return moves;
     }
 }

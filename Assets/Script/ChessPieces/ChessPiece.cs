@@ -32,9 +32,9 @@ public class ChessPiece : MonoBehaviour
 
     public virtual List<Vector2Int> GetAvailableMoves(ref ChessPiece[,] board, int tileCountX, int tileCountY)
     {
-        List<Vector2Int> r = new();
+        List<Vector2Int> moves = new();
 
-        return r;
+        return moves;
     }
 
     public virtual void SetPosition(Vector3 position, bool force = false)
