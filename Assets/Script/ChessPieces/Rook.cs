@@ -12,13 +12,13 @@ public class Rook : ChessPiece
 
         foreach (Vector2Int dir in directions)
         {
-            for (int i = 1; i < 8; i++)
+            for (int i = 1; i < Mathf.Max(tileCountX, tileCountY); i++)
             {
                 int nextX = currentX + dir.x * i;
                 int nextY = currentY + dir.y * i;
 
                 // Check if the tile is within the board boundaries
-                if (nextX < 1 || nextX >= 9 || nextY < 1 || nextY >= 9)
+                if (nextX < 1 || nextX >= tileCountX - 1 || nextY < 1 || nextY >= tileCountY - 1)
                     break;
 
                 // If the tile is empty

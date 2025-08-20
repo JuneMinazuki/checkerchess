@@ -7,7 +7,7 @@ public class Bishop : ChessPiece
     {
         List<Vector2Int> r = new();
 
-        // Directions: Up, Down, Left, Right
+        // Directions: diagonally
         Vector2Int[] directions = {new(1,1), new(1, -1), new(-1, 1), new(-1, -1)};
 
         foreach (Vector2Int dir in directions)
