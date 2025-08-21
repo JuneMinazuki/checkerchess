@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -28,9 +29,12 @@ public class Chessboard : MonoBehaviour
     private Vector2Int currentHover;
     private Vector3 bounds;
     private Vector2Int currentSelecting = -Vector2Int.one;
+    private bool isWhiteTurn;
 
     private void Awake()
     {
+        isWhiteTurn = true;
+
         GenerateAllTiles(tileSize, TILE_COUNT_X, TILE_COUNT_Y);
 
         SpawnAllPieces();
@@ -81,8 +85,8 @@ public class Chessboard : MonoBehaviour
                 {
                     if (chessPieces[hitPosition.x, hitPosition.y] != null)
                     {
-                        // Check If It Is Our Turn (Currently Always True)
-                        if (true)
+                        // Check If It Is Our Turn
+                        if ((chessPieces[hitPosition.x, hitPosition.y].team == 0 && isWhiteTurn) || (chessPieces[hitPosition.x, hitPosition.y].team == 1 && !isWhiteTurn))
                         {
                             currentlyDragging = chessPieces[hitPosition.x, hitPosition.y];
                             tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Selecting");
@@ -275,11 +279,36 @@ public class Chessboard : MonoBehaviour
         {
             ChessPiece ocp = chessPieces[x, y];
 
-            // If same team
-            if (cp.team == ocp.team)
-                return false;
+            // Capture enemy piece
+            if (ocp.team == 0)
+            {
+                deadWhites.Add(ocp);
+                ocp.SetScale(Vector3.one * deathSize);
+                if (deadWhites.Count <= 8)
+                    ocp.SetPosition(new Vector3(-7.92f, -0.88f, zOffset) + deathSpacing * (deadWhites.Count - 1) * Vector3.right);
+                else
+                    ocp.SetPosition(new Vector3(-7.92f, -1.38f, zOffset) + deathSpacing * (deadWhites.Count - 9) * Vector3.right);
+            }
+            else
+            {
+                deadBlacks.Add(ocp);
+                ocp.SetScale(Vector3.one * deathSize);
+                if (deadBlacks.Count <= 8)
+                    ocp.SetPosition(new Vector3(-7.92f, 0.88f, zOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.right);
+                else
+                    ocp.SetPosition(new Vector3(-7.92f, 0.38f, zOffset) + deathSpacing * (deadBlacks.Count - 9) * Vector3.right);
+            }
+        }
+        else if ((cp.type == ChessPieceType.Checker || cp.type == ChessPieceType.QueenChecker) && IsJumpingCapture(cp, x, y))
+        {
+            // Get piece to be captured
+            int capturedPieceX = (cp.currentX + x) / 2;
+            int capturedPieceY = (cp.currentY + y) / 2;
+            
+            ChessPiece ocp = chessPieces[capturedPieceX, capturedPieceY];
+            chessPieces[capturedPieceX, capturedPieceY] = null;
 
-            // If different team
+            // Capture enemy piece
             if (ocp.team == 0)
             {
                 deadWhites.Add(ocp);
@@ -305,7 +334,22 @@ public class Chessboard : MonoBehaviour
 
         PositionSinglePiece(x, y);
 
+        isWhiteTurn = !isWhiteTurn;
+
         return true;
+    }
+
+    // Check if checker piece are jumping over
+    private bool IsJumpingCapture(ChessPiece cp, int targetX, int targetY)
+    {
+        // Get distance jump
+        int deltaX = Math.Abs(cp.currentX - targetX);
+        int deltaY = Math.Abs(cp.currentY - targetY);
+
+        if (deltaX == 2 || deltaY == 2)
+            return true;
+
+        return false;
     }
 
     private Vector2Int LookupTileIndex(GameObject hitInfo)
