@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -52,6 +53,26 @@ public class ChessPiece : MonoBehaviour
         if (force)
         {
             transform.localScale = desiredScale;
+        }
+    }
+
+    public void CheckJumpMoves(List<Vector2Int> moves, ChessPiece[,] board, int tileCountX, int tileCountY)
+    {
+        // Define all possible jump directions (x, y)
+        Vector2Int[] jumpDirections = new Vector2Int[]
+        {
+            new (1,0), new (-1,0), new (0,1), new (0,-1),
+            new (1,1), new (-1,1), new (1,-1), new (-1,-1),
+        };
+
+        foreach (var jumpDir in jumpDirections)
+        {
+            Vector2Int jumpOver = new(currentX + jumpDir.x, currentY + jumpDir.y);
+            Vector2Int jumpTo = new(currentX + jumpDir.x * 2, currentY + jumpDir.y * 2);
+
+            // Check if the jump-to tile is on the board and empty
+            if (jumpTo.x >= 0 && jumpTo.x < tileCountX && jumpTo.y >= 0 && jumpTo.y < tileCountY && board[jumpTo.x, jumpTo.y] == null && board[jumpOver.x, jumpOver.y] != null && board[jumpOver.x, jumpOver.y].team != team)
+                moves.Add(jumpTo);
         }
     }
 }
