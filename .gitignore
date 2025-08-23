@@ -103,3 +103,4 @@ InitTestScene*.unity*
 Assets/TextMesh Pro.meta
 
 .DS_Store
+/Assets/Settings/Build Profiles
