@@ -11,4 +11,9 @@ The game pits a set of checkers pieces against a set of chess pieces, each with 
 The chess pieces operate under their traditional movement rules, but with the modified objective of protecting their fellow pieces until the checkers player's army is eliminated. This creates a fresh strategic challenge for both sides.
 
 ## Releases 🕹
-The game is still make in progress, future playable test game will be released in the near future
+[![Itch.io](https://img.shields.io/badge/Itch-%23FF0B34.svg?style=for-the-badge&logo=Itch.io&logoColor=white)](https://june6919.itch.io/checker-chess)
+
+This game is still under development, all pre-released version will be available only on WebGL. MacOS, Linux and Window support will be availble once the game is complete. Current version: Pre-released v0.1
+
+## Screenshots 📸
+<img width="1157" height="644" alt="Screenshot 2025-08-23 at 8 46 56 PM" src="https://github.com/user-attachments/assets/b1297e3e-3c96-4448-bdbd-00a7cf7aacfa" />
