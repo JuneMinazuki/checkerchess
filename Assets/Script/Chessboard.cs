@@ -50,21 +50,35 @@ public class Chessboard : MonoBehaviour
             return;
         }
 
-        Ray ray = currentCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        // If a mouse is present and being used
+        if (Mouse.current != null)
+            HandleInput(Mouse.current.position.ReadValue(), Mouse.current.leftButton.wasPressedThisFrame);
+
+
+        // If a touch is present and being used
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+            HandleInput(touch.position, touch.phase == UnityEngine.TouchPhase.Began);
+        }
+    }
+
+    // Input Handle
+    private void HandleInput(Vector2 screenPosition, bool wasPressedThisFrame)
+    {
+        Ray ray = currentCamera.ScreenPointToRay(screenPosition);
         if (Physics.Raycast(ray, out RaycastHit info, 100, LayerMask.GetMask("Tile", "Hover", "Highlight", "Selecting")))
         {
-            // Get index of tile that the mouse is touching
+            // Get index of tile that the cursor/finger is touching
             Vector2Int hitPosition = LookupTileIndex(info.transform.gameObject);
 
-            // If hovering a tile after not hovering one
+            // Hover logic remains the same, but now applies to either mouse or touch
             if (currentHover == -Vector2Int.one)
             {
                 currentHover = hitPosition;
                 tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
             }
-
-            // If changing the tile hovering
-            if (currentHover != hitPosition)
+            else if (currentHover != hitPosition)
             {
                 if (ContainsValidMove(ref availableMoves, currentHover))
                     tiles[currentHover.x, currentHover.y].layer = LayerMask.NameToLayer("Highlight");
@@ -77,8 +91,8 @@ public class Chessboard : MonoBehaviour
                 tiles[hitPosition.x, hitPosition.y].layer = LayerMask.NameToLayer("Hover");
             }
 
-            // Mouse Pressed
-            if (Mouse.current.leftButton.wasPressedThisFrame)
+            // Handle a "click" or "touch began" event
+            if (wasPressedThisFrame)
             {
                 //To Select Chess Piece
                 if (currentlyDragging == null)
@@ -128,6 +142,7 @@ public class Chessboard : MonoBehaviour
         }
         else
         {
+            // Logic for when the cursor/finger is not over a tile
             if (currentHover != -Vector2Int.one)
             {
                 if (ContainsValidMove(ref availableMoves, currentHover))
