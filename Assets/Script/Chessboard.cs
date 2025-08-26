@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Runtime.CompilerServices;
 
 public class Chessboard : MonoBehaviour
 {
@@ -29,6 +30,7 @@ public class Chessboard : MonoBehaviour
     private Vector2Int currentHover;
     private Vector3 bounds;
     private Vector2Int currentSelecting = -Vector2Int.one;
+    private int chessTeam;
     private bool isWhiteTurn;
     private bool isJumpCapture = false;
 
@@ -202,6 +204,7 @@ public class Chessboard : MonoBehaviour
         chessPieces = new ChessPiece[TILE_COUNT_X, TILE_COUNT_Y];
 
         int whiteTeam = 0, blackTeam = 1;
+        chessTeam = 0;
 
         //White Team
         chessPieces[1, 1] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
@@ -280,6 +283,27 @@ public class Chessboard : MonoBehaviour
             currentSelecting = -Vector2Int.one;
     }
 
+    // Checkmate
+    private void CheckMate(int team)
+    {
+        DisplayVictory(team);
+    }
+
+    private void DisplayVictory(int winningTeam)
+    {
+
+    }
+
+    private void OnExitButton(int winningTeam)
+    {
+
+    }
+
+    private void OnResetButton(int winningTeam)
+    {
+
+    }
+
     // Operation
     private bool ContainsValidMove(ref List<Vector2Int> moves, Vector2 pos)
     {
@@ -335,6 +359,9 @@ public class Chessboard : MonoBehaviour
             // Capture enemy piece
             if (ocp.team == 0)
             {
+                if (ocp.type == ChessPieceType.King)
+                    CheckMate(1);
+
                 deadWhites.Add(ocp);
                 ocp.SetScale(Vector3.one * deathSize);
                 if (deadWhites.Count <= 8)
@@ -344,6 +371,9 @@ public class Chessboard : MonoBehaviour
             }
             else
             {
+                if (ocp.type == ChessPieceType.King)
+                    CheckMate(0);
+
                 deadBlacks.Add(ocp);
                 ocp.SetScale(Vector3.one * deathSize);
                 if (deadBlacks.Count <= 8)
