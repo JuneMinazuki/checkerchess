@@ -1022,7 +1022,7 @@ MonoBehaviour:
       - m_Target: {fileID: 975536234}
         m_TargetAssemblyTypeName: Chessboard, Assembly-CSharp
         m_MethodName: OnResetButton
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1393,7 +1393,7 @@ MonoBehaviour:
       - m_Target: {fileID: 975536234}
         m_TargetAssemblyTypeName: Chessboard, Assembly-CSharp
         m_MethodName: OnExitButton
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

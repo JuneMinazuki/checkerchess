@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Runtime.CompilerServices;
+using Unity.Collections;
 
 public class Chessboard : MonoBehaviour
 {
@@ -31,7 +32,6 @@ public class Chessboard : MonoBehaviour
     private Vector2Int currentHover;
     private Vector3 bounds;
     private Vector2Int currentSelecting = -Vector2Int.one;
-    private int chessTeam;
     private bool isWhiteTurn;
     private bool isJumpCapture = false;
 
@@ -205,7 +205,6 @@ public class Chessboard : MonoBehaviour
         chessPieces = new ChessPiece[TILE_COUNT_X, TILE_COUNT_Y];
 
         int whiteTeam = 0, blackTeam = 1;
-        chessTeam = 0;
 
         //White Team
         chessPieces[1, 1] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
@@ -303,7 +302,41 @@ public class Chessboard : MonoBehaviour
 
     public void OnResetButton()
     {
+        // Hide UI
+        victoryScreen.transform.GetChild(0).gameObject.SetActive(false);
+        victoryScreen.transform.GetChild(1).gameObject.SetActive(false);
+        victoryScreen.SetActive(false);
 
+        // Field Reset
+        currentlyDragging = null;
+        availableMoves = new List<Vector2Int>();
+        currentSelecting = -Vector2Int.one;;
+
+        // Clean Up
+        for (int x = 0; x < TILE_COUNT_X; x++)
+        {
+            for (int y = 0; y < TILE_COUNT_Y; y++)
+            {
+                if (chessPieces[x, y] != null)
+                    Destroy(chessPieces[x, y].gameObject);
+
+                chessPieces[x, y] = null;
+                tiles[x, y].layer = LayerMask.NameToLayer("Tile");
+            }
+        }
+
+        for (int i = 0; i < deadWhites.Count; i++)
+            Destroy(deadWhites[i].gameObject);
+        for (int i = 0; i < deadBlacks.Count; i++)
+            Destroy(deadBlacks[i].gameObject);
+
+        deadWhites.Clear();
+        deadBlacks.Clear();
+
+        // Spawn Pieces
+        SpawnAllPieces();
+        PositionAllPieces();
+        isWhiteTurn = true;
     }
 
     // Operation
