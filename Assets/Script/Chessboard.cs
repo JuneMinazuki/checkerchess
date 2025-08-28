@@ -370,6 +370,9 @@ public class Chessboard : MonoBehaviour
                     ocp.SetPosition(new Vector3(-7.92f, -0.88f, zOffset) + deathSpacing * (deadWhites.Count - 1) * Vector3.right);
                 else
                     ocp.SetPosition(new Vector3(-7.92f, -1.38f, zOffset) + deathSpacing * (deadWhites.Count - 9) * Vector3.right);
+
+                if (deadWhites.Count >= 12)
+                    CheckMate(1);
             }
             else
             {
@@ -379,6 +382,9 @@ public class Chessboard : MonoBehaviour
                     ocp.SetPosition(new Vector3(-7.92f, 0.88f, zOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.right);
                 else
                     ocp.SetPosition(new Vector3(-7.92f, 0.38f, zOffset) + deathSpacing * (deadBlacks.Count - 9) * Vector3.right);
+
+                if (deadBlacks.Count >= 12)
+                    CheckMate(0);
             }
         }
         // Checker capture
