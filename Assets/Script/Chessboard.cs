@@ -318,7 +318,8 @@ public class Chessboard : MonoBehaviour
         // Field Reset
         currentlyDragging = null;
         availableMoves = new List<Vector2Int>();
-        currentSelecting = -Vector2Int.one;;
+        currentSelecting = -Vector2Int.one;
+        isJumpCapture = false;
 
         // Clean Up
         for (int x = 0; x < TILE_COUNT_X; x++)
