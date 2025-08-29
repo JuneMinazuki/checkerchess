@@ -14,7 +14,10 @@ public class Chessboard : MonoBehaviour
     [SerializeField] private Vector3 boardCenter = Vector3.zero;
     [SerializeField] private float deathSize = 1.75f;
     [SerializeField] private float deathSpacing = 0.37f;
+
+    [Header("UI and Canvas")]
     [SerializeField] private GameObject victoryScreen;
+    [SerializeField] private GameObject midGameUI;
 
     [Header("Prefabs & Materials")]
     [SerializeField] private GameObject[] prefabs;
@@ -176,7 +179,7 @@ public class Chessboard : MonoBehaviour
         GameObject tileObject = new(string.Format("X:{0}, Y:{1}", x, y));
         tileObject.transform.parent = transform;
 
-        Mesh mesh = new Mesh();
+        Mesh mesh = new();
         tileObject.AddComponent<MeshFilter>().mesh = mesh;
         tileObject.AddComponent<MeshRenderer>().material = tileMaterial;
 
@@ -291,6 +294,8 @@ public class Chessboard : MonoBehaviour
 
     private void DisplayVictory(int winningTeam)
     {
+        midGameUI.SetActive(false);
+
         victoryScreen.SetActive(true);
         victoryScreen.transform.GetChild(winningTeam).gameObject.SetActive(true);
     }
@@ -306,6 +311,9 @@ public class Chessboard : MonoBehaviour
         victoryScreen.transform.GetChild(0).gameObject.SetActive(false);
         victoryScreen.transform.GetChild(1).gameObject.SetActive(false);
         victoryScreen.SetActive(false);
+
+        // Show Mid-Game UI
+        midGameUI.SetActive(true);
 
         // Field Reset
         currentlyDragging = null;
