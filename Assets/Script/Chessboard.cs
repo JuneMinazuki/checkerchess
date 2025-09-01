@@ -348,6 +348,17 @@ public class Chessboard : MonoBehaviour
         isWhiteTurn = true;
     }
 
+    public void OnEndTurnButton()
+    {
+        isJumpCapture = false;
+        RemoveHighlightTiles();
+
+        isWhiteTurn = !isWhiteTurn;
+        midGameUI.transform.GetChild(0).gameObject.SetActive(false);
+
+        currentlyDragging = null;
+    }
+
     // Operation
     private bool ContainsValidMove(ref List<Vector2Int> moves, Vector2 pos)
     {

@@ -1450,7 +1450,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -2206,7 +2206,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 975536234}
         m_TargetAssemblyTypeName: Chessboard, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: OnEndTurnButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
