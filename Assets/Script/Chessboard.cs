@@ -450,12 +450,15 @@ public class Chessboard : MonoBehaviour
 
                 availableMoves = newJumps;
                 HighlightTiles();
+
+                midGameUI.transform.GetChild(0).gameObject.SetActive(true);
                 
                 return true;
             }
         }
 
         isWhiteTurn = !isWhiteTurn;
+        midGameUI.transform.GetChild(0).gameObject.SetActive(false);
         isJumpCapture = false;
 
         return true;
