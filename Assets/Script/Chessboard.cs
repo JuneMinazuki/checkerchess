@@ -2,8 +2,13 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Runtime.CompilerServices;
-using Unity.Collections;
+
+public enum SpecialMove
+{
+    None = 0,
+    Castling,
+    Promotion,
+}
 
 public class Chessboard : MonoBehaviour
 {
@@ -36,6 +41,8 @@ public class Chessboard : MonoBehaviour
     private Vector3 bounds;
     private Vector2Int currentSelecting = -Vector2Int.one;
     private bool isWhiteTurn;
+    private List<Vector2Int[]> moveList = new();
+    private SpecialMove specialMove;
     private bool isJumpCapture = false;
 
     private void Awake()
@@ -317,9 +324,10 @@ public class Chessboard : MonoBehaviour
 
         // Field Reset
         currentlyDragging = null;
-        availableMoves = new List<Vector2Int>();
+        availableMoves.Clear();
         currentSelecting = -Vector2Int.one;
         isJumpCapture = false;
+        moveList.Clear();
 
         // Clean Up
         for (int x = 0; x < TILE_COUNT_X; x++)
@@ -373,7 +381,7 @@ public class Chessboard : MonoBehaviour
     {
         if (!ContainsValidMove(ref availableMoves, new Vector2(x, y)))
             return false;
-            
+
         Vector2Int previousPosition = new(cp.currentX, cp.currentY);
 
         // Check If Target Position Is Occupied By Another Piece
@@ -444,7 +452,7 @@ public class Chessboard : MonoBehaviour
             }
 
             isJumpCapture = true;
-        } 
+        }
 
         chessPieces[x, y] = cp;
         chessPieces[previousPosition.x, previousPosition.y] = null;
@@ -456,14 +464,15 @@ public class Chessboard : MonoBehaviour
             List<Vector2Int> newJumps = new();
             cp.CheckJumpMoves(newJumps, chessPieces, TILE_COUNT_X, TILE_COUNT_X);
 
-            if (newJumps.Count > 0) {
+            if (newJumps.Count > 0)
+            {
                 RemoveHighlightTiles();
 
                 availableMoves = newJumps;
                 HighlightTiles();
 
                 midGameUI.transform.GetChild(0).gameObject.SetActive(true);
-                
+
                 return true;
             }
         }
