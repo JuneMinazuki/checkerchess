@@ -129,7 +129,7 @@ public class Chessboard : MonoBehaviour
                 else if (currentlyDragging != null)
                 {
                     bool validMove = MoveTo(currentlyDragging, hitPosition.x, hitPosition.y);
-
+                    
                     if (!isJumpCapture)
                         RemoveHighlightTiles();
 
@@ -325,9 +325,9 @@ public class Chessboard : MonoBehaviour
         // Field Reset
         currentlyDragging = null;
         availableMoves.Clear();
+        moveList.Clear();
         currentSelecting = -Vector2Int.one;
         isJumpCapture = false;
-        moveList.Clear();
 
         // Clean Up
         for (int x = 0; x < TILE_COUNT_X; x++)
@@ -379,7 +379,7 @@ public class Chessboard : MonoBehaviour
 
     private bool MoveTo(ChessPiece cp, int x, int y)
     {
-        if (!ContainsValidMove(ref availableMoves, new Vector2(x, y)))
+        if (!ContainsValidMove(ref availableMoves, new Vector2Int(x, y)))
             return false;
 
         Vector2Int previousPosition = new(cp.currentX, cp.currentY);
@@ -473,6 +473,7 @@ public class Chessboard : MonoBehaviour
 
                 midGameUI.transform.GetChild(0).gameObject.SetActive(true);
 
+                moveList.Add(new Vector2Int[]{previousPosition, new(x,y)});
                 return true;
             }
         }
@@ -481,6 +482,7 @@ public class Chessboard : MonoBehaviour
         midGameUI.transform.GetChild(0).gameObject.SetActive(false);
         isJumpCapture = false;
 
+        moveList.Add(new Vector2Int[]{previousPosition, new(x,y)});
         return true;
     }
 
