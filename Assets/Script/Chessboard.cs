@@ -376,7 +376,42 @@ public class Chessboard : MonoBehaviour
     {
         if (specialMove == SpecialMove.JumpCapture)
         {
-            
+            var jumpingCheckerMove = moveList[^1];
+
+            // Get piece to be captured
+            int capturedPieceX = (jumpingCheckerMove[0].x + jumpingCheckerMove[1].x) / 2;
+            int capturedPieceY = (jumpingCheckerMove[0].y + jumpingCheckerMove[1].y) / 2;
+
+            ChessPiece ocp = chessPieces[capturedPieceX, capturedPieceY];
+            chessPieces[capturedPieceX, capturedPieceY] = null;
+
+            // Capture enemy piece
+            if (ocp.team == 0)
+            {
+                if (ocp.type == ChessPieceType.King)
+                    CheckMate(1);
+
+                deadWhites.Add(ocp);
+                ocp.SetScale(Vector3.one * deathSize);
+                if (deadWhites.Count <= 8)
+                    ocp.SetPosition(new Vector3(-7.92f, -0.88f, zOffset) + deathSpacing * (deadWhites.Count - 1) * Vector3.right);
+                else
+                    ocp.SetPosition(new Vector3(-7.92f, -1.38f, zOffset) + deathSpacing * (deadWhites.Count - 9) * Vector3.right);
+            }
+            else
+            {
+                if (ocp.type == ChessPieceType.King)
+                    CheckMate(0);
+
+                deadBlacks.Add(ocp);
+                ocp.SetScale(Vector3.one * deathSize);
+                if (deadBlacks.Count <= 8)
+                    ocp.SetPosition(new Vector3(-7.92f, 0.88f, zOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.right);
+                else
+                    ocp.SetPosition(new Vector3(-7.92f, 0.38f, zOffset) + deathSpacing * (deadBlacks.Count - 9) * Vector3.right);
+            }
+
+            isJumpCapture = true;
         }
     }
 
@@ -428,49 +463,14 @@ public class Chessboard : MonoBehaviour
                     CheckMate(0);
             }
         }
-        // Checker capture
-        else if ((cp.type == ChessPieceType.Checker || cp.type == ChessPieceType.QueenChecker) && IsJumpingCapture(cp, x, y))
-        {
-            // Get piece to be captured
-            int capturedPieceX = (cp.currentX + x) / 2;
-            int capturedPieceY = (cp.currentY + y) / 2;
-
-            ChessPiece ocp = chessPieces[capturedPieceX, capturedPieceY];
-            chessPieces[capturedPieceX, capturedPieceY] = null;
-
-            // Capture enemy piece
-            if (ocp.team == 0)
-            {
-                if (ocp.type == ChessPieceType.King)
-                    CheckMate(1);
-
-                deadWhites.Add(ocp);
-                ocp.SetScale(Vector3.one * deathSize);
-                if (deadWhites.Count <= 8)
-                    ocp.SetPosition(new Vector3(-7.92f, -0.88f, zOffset) + deathSpacing * (deadWhites.Count - 1) * Vector3.right);
-                else
-                    ocp.SetPosition(new Vector3(-7.92f, -1.38f, zOffset) + deathSpacing * (deadWhites.Count - 9) * Vector3.right);
-            }
-            else
-            {
-                if (ocp.type == ChessPieceType.King)
-                    CheckMate(0);
-
-                deadBlacks.Add(ocp);
-                ocp.SetScale(Vector3.one * deathSize);
-                if (deadBlacks.Count <= 8)
-                    ocp.SetPosition(new Vector3(-7.92f, 0.88f, zOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.right);
-                else
-                    ocp.SetPosition(new Vector3(-7.92f, 0.38f, zOffset) + deathSpacing * (deadBlacks.Count - 9) * Vector3.right);
-            }
-
-            isJumpCapture = true;
-        }
 
         chessPieces[x, y] = cp;
         chessPieces[previousPosition.x, previousPosition.y] = null;
 
+        moveList.Add(new Vector2Int[]{previousPosition, new(x,y)});
         PositionSinglePiece(x, y);
+
+        ProcessSpecialMove();
 
         if (isJumpCapture)
         {
@@ -486,7 +486,6 @@ public class Chessboard : MonoBehaviour
 
                 midGameUI.transform.GetChild(0).gameObject.SetActive(true);
 
-                moveList.Add(new Vector2Int[]{previousPosition, new(x,y)});
                 return true;
             }
         }
@@ -494,9 +493,6 @@ public class Chessboard : MonoBehaviour
         isWhiteTurn = !isWhiteTurn;
         midGameUI.transform.GetChild(0).gameObject.SetActive(false);
         isJumpCapture = false;
-
-        moveList.Add(new Vector2Int[]{previousPosition, new(x,y)});
-        ProcessSpecialMove();
 
         return true;
     }
