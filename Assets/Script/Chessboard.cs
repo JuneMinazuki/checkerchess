@@ -8,6 +8,7 @@ public enum SpecialMove
     None = 0,
     Castling,
     Promotion,
+    JumpCapture
 }
 
 public class Chessboard : MonoBehaviour
@@ -370,6 +371,15 @@ public class Chessboard : MonoBehaviour
         currentlyDragging = null;
     }
 
+    //Special Moves
+    private void ProcessSpecialMove()
+    {
+        if (specialMove == SpecialMove.JumpCapture)
+        {
+            
+        }
+    }
+
     // Operation
     private bool ContainsValidMove(ref List<Vector2Int> moves, Vector2 pos)
     {
@@ -465,7 +475,7 @@ public class Chessboard : MonoBehaviour
         if (isJumpCapture)
         {
             List<Vector2Int> newJumps = new();
-            cp.CheckJumpMoves(newJumps, chessPieces, TILE_COUNT_X, TILE_COUNT_X);
+            specialMove = cp.CheckJumpMoves(newJumps, chessPieces, TILE_COUNT_X, TILE_COUNT_X);
 
             if (newJumps.Count > 0)
             {
@@ -486,6 +496,8 @@ public class Chessboard : MonoBehaviour
         isJumpCapture = false;
 
         moveList.Add(new Vector2Int[]{previousPosition, new(x,y)});
+        ProcessSpecialMove();
+
         return true;
     }
 
