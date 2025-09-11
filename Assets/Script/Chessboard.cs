@@ -121,6 +121,9 @@ public class Chessboard : MonoBehaviour
 
                             // Get list of available moves, highlight those tiles
                             availableMoves = currentlyDragging.GetAvailableMoves(ref chessPieces, TILE_COUNT_X, TILE_COUNT_Y);
+                            // Get list of special moves
+                            specialMove = currentlyDragging.GetSpecialMoves(ref chessPieces, ref moveList, ref availableMoves);
+
                             HighlightTiles();
                         }
                     }
@@ -129,7 +132,7 @@ public class Chessboard : MonoBehaviour
                 else if (currentlyDragging != null)
                 {
                     bool validMove = MoveTo(currentlyDragging, hitPosition.x, hitPosition.y);
-                    
+
                     if (!isJumpCapture)
                         RemoveHighlightTiles();
 
