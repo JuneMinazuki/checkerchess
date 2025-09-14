@@ -17,7 +17,7 @@ public class Checker : ChessPiece
 
     public override SpecialMove GetSpecialMoves(ref ChessPiece[,] board, ref List<Vector2Int[]> movelist, ref List<Vector2Int> avaiableMoves)
     {
-        bool haveSpecialMove = false;
+        SpecialMove r = SpecialMove.None;
         int direction = (team == 0) ? 1 : -1;
         int tileCountX = 10;
         int tileCountY = 10;
@@ -34,14 +34,11 @@ public class Checker : ChessPiece
             if (IsOnBoard(jumpTo, tileCountX, tileCountY, 0) && board[jumpTo.x, jumpTo.y] == null && board[jumpOver.x, jumpOver.y] != null && board[jumpOver.x, jumpOver.y].team != team)
             {
                 avaiableMoves.Add(jumpTo);
-                haveSpecialMove = true;
+                r = SpecialMove.JumpCapture;
             }
         }
 
-        if (haveSpecialMove)
-            return SpecialMove.JumpCapture;
-
-        return SpecialMove.None;
+        return r;
     }
     
     private void AddNormalMoves(List<Vector2Int> moves, ChessPiece[,] board, int tileCountX, int tileCountY, int direction)
