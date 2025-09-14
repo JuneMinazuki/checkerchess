@@ -27,4 +27,40 @@ public class King : ChessPiece
 
         return moves;
     }
+
+    public override SpecialMove GetSpecialMoves(ref ChessPiece[,] board, ref List<Vector2Int[]> movelist, ref List<Vector2Int> avaiableMoves)
+    {
+        SpecialMove r = SpecialMove.None;
+
+        var kingMove = movelist.Find(m => m[0].x == 5 && m[0].y == ((team == 0) ? 1 : 8));
+        var leftRook = movelist.Find(m => m[0].x == 1 && m[0].y == ((team == 0) ? 1 : 8));
+        var rightRook = movelist.Find(m => m[0].x == 8 && m[0].y == ((team == 0) ? 1 : 8));
+
+        if (kingMove == null)
+        {
+            int row = (team == 0) ? 1 : 8;
+                Debug.Log(board[4, row]);
+                Debug.Log(board[3, row]);
+                Debug.Log(board[2, row]);
+
+            if (leftRook == null && board[4, row] == null && board[3, row] == null && board[2, row] == null)
+            {
+                avaiableMoves.Add(new Vector2Int(3, row));
+                r = SpecialMove.Castling;
+                Debug.Log("Left");
+            }
+
+            if (rightRook == null && board[6, row] == null && board[7, row] == null)
+            {
+                avaiableMoves.Add(new Vector2Int(7, row));
+                r = SpecialMove.Castling;
+                Debug.Log("Right");
+            }
+        }
+        Debug.Log(kingMove);
+        Debug.Log(leftRook);
+        Debug.Log(rightRook);
+
+        return r;
+    }
 }
