@@ -224,8 +224,8 @@ public class Chessboard : MonoBehaviour
         chessPieces[1, 1] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
         chessPieces[2, 1] = SpawnSinglePiece(ChessPieceType.Knight, whiteTeam);
         chessPieces[3, 1] = SpawnSinglePiece(ChessPieceType.Bishop, whiteTeam);
-        chessPieces[4, 1] = SpawnSinglePiece(ChessPieceType.King, whiteTeam);
-        chessPieces[5, 1] = SpawnSinglePiece(ChessPieceType.Queen, whiteTeam);
+        chessPieces[4, 1] = SpawnSinglePiece(ChessPieceType.Queen, whiteTeam);
+        chessPieces[5, 1] = SpawnSinglePiece(ChessPieceType.King, whiteTeam);
         chessPieces[6, 1] = SpawnSinglePiece(ChessPieceType.Bishop, whiteTeam);
         chessPieces[7, 1] = SpawnSinglePiece(ChessPieceType.Knight, whiteTeam);
         chessPieces[8, 1] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
