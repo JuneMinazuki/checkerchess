@@ -417,6 +417,44 @@ public class Chessboard : MonoBehaviour
                 isJumpCapture = true;
             }
         }
+
+        if (specialMove == SpecialMove.Castling)
+        {
+            Vector2Int[] lastMove = moveList[^1];
+
+            // Left Rook
+            if (lastMove[1].x == 3)
+            {
+                if (lastMove[1].y == 1)
+                {
+                    chessPieces[4, 1] = chessPieces[1, 1];
+                    PositionSinglePiece(4, 1);
+                    chessPieces[1, 1] = null;
+                }
+                else if (lastMove[1].y == 8)
+                {
+                    chessPieces[4, 8] = chessPieces[1, 8];
+                    PositionSinglePiece(4, 8);
+                    chessPieces[1, 8] = null;
+                }
+            }
+            // Right Rook
+            else if (lastMove[1].x == 7)
+            {
+                if (lastMove[1].y == 1)
+                {
+                    chessPieces[6, 1] = chessPieces[8, 1];
+                    PositionSinglePiece(6, 1);
+                    chessPieces[8, 1] = null;
+                }
+                else if (lastMove[1].y == 8)
+                {
+                    chessPieces[6, 8] = chessPieces[8, 8];
+                    PositionSinglePiece(6, 8);
+                    chessPieces[8, 8] = null;
+                }
+            }
+        }
     }
 
     // Operation

@@ -39,27 +39,19 @@ public class King : ChessPiece
         if (kingMove == null)
         {
             int row = (team == 0) ? 1 : 8;
-                Debug.Log(board[4, row]);
-                Debug.Log(board[3, row]);
-                Debug.Log(board[2, row]);
 
             if (leftRook == null && board[4, row] == null && board[3, row] == null && board[2, row] == null)
             {
                 avaiableMoves.Add(new Vector2Int(3, row));
                 r = SpecialMove.Castling;
-                Debug.Log("Left");
             }
 
             if (rightRook == null && board[6, row] == null && board[7, row] == null)
             {
                 avaiableMoves.Add(new Vector2Int(7, row));
                 r = SpecialMove.Castling;
-                Debug.Log("Right");
             }
         }
-        Debug.Log(kingMove);
-        Debug.Log(leftRook);
-        Debug.Log(rightRook);
 
         return r;
     }
