@@ -35,4 +35,13 @@ public class Pawn : ChessPiece
 
         return moves;
     }
+
+    public override SpecialMove GetSpecialMoves(ref ChessPiece[,] board, ref List<Vector2Int[]> movelist, ref List<Vector2Int> avaiableMoves)
+    {
+        // Promotion
+        if ((team == 0 && currentY == 7) || (team == 1 && currentY == 2))
+            return SpecialMove.Promotion;
+
+        return SpecialMove.None;
+    }
 }
