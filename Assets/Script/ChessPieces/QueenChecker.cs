@@ -62,9 +62,4 @@ public class QueenChecker : ChessPiece
                     moves.Add(new Vector2Int(nextX, nextY));
         }
     }
-
-    private bool IsOnBoard(Vector2Int position, int tileCountX, int tileCountY, int edge = 1)
-    {
-        return position.x >= edge && position.x < tileCountX - edge && position.y >= edge && position.y < tileCountY - edge;
-    }
 }
