@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public enum SpecialMove
 {
-    None = 0,
     Castling,
     Promotion,
     JumpCapture
@@ -43,7 +42,7 @@ public class Chessboard : MonoBehaviour
     private Vector2Int currentSelecting = -Vector2Int.one;
     private bool isWhiteTurn;
     private List<Vector2Int[]> moveList = new();
-    private SpecialMove specialMove;
+    private HashSet<SpecialMove> specialMoves;
     private bool isJumpCapture = false;
 
     private void Awake()
@@ -123,7 +122,7 @@ public class Chessboard : MonoBehaviour
                             // Get list of available moves, highlight those tiles
                             availableMoves = currentlyDragging.GetAvailableMoves(ref chessPieces, TILE_COUNT_X, TILE_COUNT_Y);
                             // Get list of special moves
-                            specialMove = currentlyDragging.GetSpecialMoves(ref chessPieces, ref moveList, ref availableMoves);
+                            specialMoves = currentlyDragging.GetSpecialMoves(ref chessPieces, ref moveList, ref availableMoves);
 
                             HighlightTiles();
                         }
@@ -374,7 +373,7 @@ public class Chessboard : MonoBehaviour
     //Special Moves
     private void ProcessSpecialMove()
     {
-        if (specialMove == SpecialMove.JumpCapture)
+        if (specialMoves.Contains(SpecialMove.JumpCapture))
         {
             var jumpingCheckerMove = moveList[^1];
 
@@ -418,7 +417,7 @@ public class Chessboard : MonoBehaviour
             }
         }
 
-        if (specialMove == SpecialMove.Castling)
+        if (specialMoves.Contains(SpecialMove.Castling))
         {
             Vector2Int[] lastMove = moveList[^1];
 
@@ -456,7 +455,7 @@ public class Chessboard : MonoBehaviour
             }
         }
 
-        if (specialMove == SpecialMove.Promotion)
+        if (specialMoves.Contains(SpecialMove.Promotion))
         {
             Vector2Int[] lastMove = moveList[^1];
             ChessPiece targetPawn = chessPieces[lastMove[1].x, lastMove[1].y];
@@ -481,6 +480,8 @@ public class Chessboard : MonoBehaviour
                 }
             }
         }
+
+        specialMoves.Clear();
     }
 
     // Operation
@@ -543,7 +544,7 @@ public class Chessboard : MonoBehaviour
         if (isJumpCapture)
         {
             List<Vector2Int> newJumps = new();
-            specialMove = cp.CheckJumpMoves(newJumps, chessPieces, TILE_COUNT_X, TILE_COUNT_X);
+            specialMoves = cp.CheckJumpMoves(newJumps, chessPieces, TILE_COUNT_X, TILE_COUNT_X);
 
             if (newJumps.Count > 0)
             {
@@ -563,19 +564,6 @@ public class Chessboard : MonoBehaviour
         isJumpCapture = false;
 
         return true;
-    }
-
-    // Check if checker piece are jumping over
-    private bool IsJumpingCapture(ChessPiece cp, int targetX, int targetY)
-    {
-        // Get distance jump
-        int deltaX = Math.Abs(cp.currentX - targetX);
-        int deltaY = Math.Abs(cp.currentY - targetY);
-
-        if (deltaX == 2 || deltaY == 2)
-            return true;
-
-        return false;
     }
 
     private Vector2Int LookupTileIndex(GameObject hitInfo)

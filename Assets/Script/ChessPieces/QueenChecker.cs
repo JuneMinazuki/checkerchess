@@ -13,9 +13,9 @@ public class QueenChecker : ChessPiece
         return moves;
     }
 
-    public override SpecialMove GetSpecialMoves(ref ChessPiece[,] board, ref List<Vector2Int[]> movelist, ref List<Vector2Int> avaiableMoves)
+    public override HashSet<SpecialMove> GetSpecialMoves(ref ChessPiece[,] board, ref List<Vector2Int[]> movelist, ref List<Vector2Int> avaiableMoves)
     {
-        SpecialMove r = SpecialMove.None;
+        HashSet<SpecialMove> r = new();
         int tileCountX = 10;
         int tileCountY = 10;
 
@@ -32,11 +32,10 @@ public class QueenChecker : ChessPiece
             Vector2Int jumpTo = new(currentX + jumpDir.x * 2, currentY + jumpDir.y * 2);
 
             // Check if the jump-to tile is on the board and empty
-            // Check if the jump-to tile is on the board and empty
-            if (IsOnBoard(jumpTo, tileCountX, tileCountY, 0) && board[jumpTo.x, jumpTo.y] == null && board[jumpOver.x, jumpOver.y] != null && board[jumpOver.x, jumpOver.y].team != team)
+            if (jumpTo.x >= 0 && jumpTo.x < tileCountX && jumpTo.y >= 0 && jumpTo.y < tileCountY && board[jumpTo.x, jumpTo.y] == null && board[jumpOver.x, jumpOver.y] != null && board[jumpOver.x, jumpOver.y].team != team)
             {
                 avaiableMoves.Add(jumpTo);
-                r = SpecialMove.JumpCapture;
+                r.Add(SpecialMove.JumpCapture);
             }
         }
 

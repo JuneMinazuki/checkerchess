@@ -15,9 +15,9 @@ public class Checker : ChessPiece
         return moves;
     }
 
-    public override SpecialMove GetSpecialMoves(ref ChessPiece[,] board, ref List<Vector2Int[]> movelist, ref List<Vector2Int> avaiableMoves)
+    public override HashSet<SpecialMove> GetSpecialMoves(ref ChessPiece[,] board, ref List<Vector2Int[]> movelist, ref List<Vector2Int> avaiableMoves)
     {
-        SpecialMove r = SpecialMove.None;
+        HashSet<SpecialMove> r = new();
         int direction = (team == 0) ? 1 : -1;
         int tileCountX = 10;
         int tileCountY = 10;
@@ -34,9 +34,13 @@ public class Checker : ChessPiece
             if (IsOnBoard(jumpTo, tileCountX, tileCountY, 0) && board[jumpTo.x, jumpTo.y] == null && board[jumpOver.x, jumpOver.y] != null && board[jumpOver.x, jumpOver.y].team != team)
             {
                 avaiableMoves.Add(jumpTo);
-                r = SpecialMove.JumpCapture;
+                r.Add(SpecialMove.JumpCapture);
             }
         }
+
+        // Promotion
+        if ((team == 0 && currentY == 7) || (team == 1 && currentY == 2))
+            r.Add(SpecialMove.Promotion);
 
         return r;
     }

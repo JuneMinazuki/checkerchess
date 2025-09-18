@@ -28,9 +28,9 @@ public class King : ChessPiece
         return moves;
     }
 
-    public override SpecialMove GetSpecialMoves(ref ChessPiece[,] board, ref List<Vector2Int[]> movelist, ref List<Vector2Int> avaiableMoves)
+    public override HashSet<SpecialMove> GetSpecialMoves(ref ChessPiece[,] board, ref List<Vector2Int[]> movelist, ref List<Vector2Int> avaiableMoves)
     {
-        SpecialMove r = SpecialMove.None;
+        HashSet<SpecialMove> r = new();
 
         var kingMove = movelist.Find(m => m[0].x == 5 && m[0].y == ((team == 0) ? 1 : 8));
         var leftRook = movelist.Find(m => m[0].x == 1 && m[0].y == ((team == 0) ? 1 : 8));
@@ -43,13 +43,13 @@ public class King : ChessPiece
             if (leftRook == null && board[4, row] == null && board[3, row] == null && board[2, row] == null)
             {
                 avaiableMoves.Add(new Vector2Int(3, row));
-                r = SpecialMove.Castling;
+                r.Add(SpecialMove.Castling);
             }
 
             if (rightRook == null && board[6, row] == null && board[7, row] == null)
             {
                 avaiableMoves.Add(new Vector2Int(7, row));
-                r = SpecialMove.Castling;
+                r.Add(SpecialMove.Castling);
             }
         }
 

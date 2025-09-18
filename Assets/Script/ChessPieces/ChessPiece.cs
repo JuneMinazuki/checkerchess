@@ -38,9 +38,10 @@ public class ChessPiece : MonoBehaviour
         return moves;
     }
 
-    public virtual SpecialMove GetSpecialMoves(ref ChessPiece[,] board, ref List<Vector2Int[]> movelist, ref List<Vector2Int> avaiableMoves)
+    public virtual HashSet<SpecialMove> GetSpecialMoves(ref ChessPiece[,] board, ref List<Vector2Int[]> movelist, ref List<Vector2Int> avaiableMoves)
     {
-        return SpecialMove.None;
+        HashSet<SpecialMove> r = new();
+        return r;
     }
 
     public virtual void SetPosition(Vector3 position, bool force = false)
@@ -61,9 +62,9 @@ public class ChessPiece : MonoBehaviour
         }
     }
 
-    public SpecialMove CheckJumpMoves(List<Vector2Int> moves, ChessPiece[,] board, int tileCountX, int tileCountY)
+    public HashSet<SpecialMove> CheckJumpMoves(List<Vector2Int> moves, ChessPiece[,] board, int tileCountX, int tileCountY)
     {
-        bool haveSpecialMove = false;
+        HashSet<SpecialMove>r = new();
 
         // Define all possible jump directions (x, y)
         Vector2Int[] jumpDirections = new Vector2Int[]
@@ -79,13 +80,12 @@ public class ChessPiece : MonoBehaviour
 
             // Check if the jump-to tile is on the board and empty
             if (jumpTo.x >= 0 && jumpTo.x < tileCountX && jumpTo.y >= 0 && jumpTo.y < tileCountY && board[jumpTo.x, jumpTo.y] == null && board[jumpOver.x, jumpOver.y] != null && board[jumpOver.x, jumpOver.y].team != team)
+            {
                 moves.Add(jumpTo);
-                haveSpecialMove = true;
+                r.Add(SpecialMove.JumpCapture);
+            }
         }
 
-        if (haveSpecialMove)
-            return SpecialMove.JumpCapture;
-
-        return SpecialMove.None;        
+        return r;        
     }
 }
