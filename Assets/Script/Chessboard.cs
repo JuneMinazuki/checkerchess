@@ -379,7 +379,7 @@ public class Chessboard : MonoBehaviour
             var jumpingCheckerMove = moveList[^1];
 
             // Check if jump capture
-            if (Math.Abs(jumpingCheckerMove[0].x + jumpingCheckerMove[1].x) == 2 | Math.Abs(jumpingCheckerMove[0].y + jumpingCheckerMove[1].y) == 2)
+            if (Math.Abs(jumpingCheckerMove[0].x - jumpingCheckerMove[1].x) == 2 || Math.Abs(jumpingCheckerMove[0].y - jumpingCheckerMove[1].y) == 2)
             {
                 // Get piece to be captured
                 int capturedPieceX = (jumpingCheckerMove[0].x + jumpingCheckerMove[1].x) / 2;
