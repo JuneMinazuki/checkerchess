@@ -563,8 +563,10 @@ public class Chessboard : MonoBehaviour
 
         if (isJumpCapture)
         {
+            currentlyDragging = chessPieces[x, y];
+
             List<Vector2Int> newJumps = new();
-            specialMoves = cp.CheckJumpMoves(newJumps, chessPieces, TILE_COUNT_X, TILE_COUNT_X);
+            specialMoves = currentlyDragging.CheckJumpMoves(newJumps, chessPieces, TILE_COUNT_X, TILE_COUNT_X);
 
             if (newJumps.Count > 0)
             {

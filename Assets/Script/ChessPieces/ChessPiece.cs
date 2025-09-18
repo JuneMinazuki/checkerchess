@@ -86,6 +86,10 @@ public class ChessPiece : MonoBehaviour
             }
         }
 
+        // Promotion
+        if ((team == 0 && currentY >= 6) || (team == 1 && currentY <= 3))
+            r.Add(SpecialMove.Promotion);
+
         return r;        
     }
 }

@@ -39,7 +39,7 @@ public class Checker : ChessPiece
         }
 
         // Promotion
-        if ((team == 0 && currentY == 7) || (team == 1 && currentY == 2))
+        if ((team == 0 && currentY >= 6) || (team == 1 && currentY <= 3))
             r.Add(SpecialMove.Promotion);
 
         return r;
