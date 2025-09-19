@@ -124,6 +124,8 @@ public class Chessboard : MonoBehaviour
                             // Get list of special moves
                             specialMoves = currentlyDragging.GetSpecialMoves(ref chessPieces, ref moveList, ref availableMoves);
 
+                            PreventCheck();
+
                             HighlightTiles();
                         }
                     }
@@ -502,6 +504,37 @@ public class Chessboard : MonoBehaviour
         }
 
         specialMoves.Clear();
+    }
+
+    private void PreventCheck()
+    {
+        ChessPiece targetKing = null;
+
+        for (int x = 0; x < TILE_COUNT_X; x++)
+            for (int y = 0; y < TILE_COUNT_Y; y++)
+                if (chessPieces[x, y].type == ChessPieceType.King && chessPieces[x, y].team == currentlyDragging.team)
+                {
+                    targetKing = chessPieces[x, y];
+                    break;
+                }
+
+        //Delete move going into check
+        if (targetKing != null)
+            SimulateMoveForSinglePiece(currentlyDragging, ref availableMoves, targetKing);
+    }
+
+    private void SimulateMoveForSinglePiece(ChessPiece cp, ref List<Vector2Int> moves, ChessPiece targetKing)
+    {
+        // Save current values, reset after method
+        int actualX = cp.currentX;
+        int actualY = cp.currentY;
+        List<Vector2Int> movesToRemove = new();
+
+        // Going through every moves, simulate and check if legal move
+
+        // Remove from move list
+        foreach (Vector2Int move in movesToRemove)
+            moves.Remove(move);
     }
 
     // Operation
