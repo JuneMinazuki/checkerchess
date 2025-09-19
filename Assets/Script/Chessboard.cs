@@ -148,6 +148,11 @@ public class Chessboard : MonoBehaviour
 
                             // Get list of available moves, highlight those tiles
                             availableMoves = currentlyDragging.GetAvailableMoves(ref chessPieces, TILE_COUNT_X, TILE_COUNT_Y);
+                            // Get list of special moves
+                            specialMoves = currentlyDragging.GetSpecialMoves(ref chessPieces, ref moveList, ref availableMoves);
+
+                            PreventCheck();
+
                             HighlightTiles();
                         }
                         else if (!isJumpCapture)
@@ -511,30 +516,68 @@ public class Chessboard : MonoBehaviour
         ChessPiece targetKing = null;
 
         for (int x = 0; x < TILE_COUNT_X; x++)
+        {
             for (int y = 0; y < TILE_COUNT_Y; y++)
-                if (chessPieces[x, y].type == ChessPieceType.King && chessPieces[x, y].team == currentlyDragging.team)
+                if (chessPieces[x, y] != null && chessPieces[x, y].type == ChessPieceType.King && chessPieces[x, y].team == currentlyDragging.team)
                 {
                     targetKing = chessPieces[x, y];
                     break;
                 }
 
-        //Delete move going into check
-        if (targetKing != null)
-            SimulateMoveForSinglePiece(currentlyDragging, ref availableMoves, targetKing);
+            if (targetKing != null)
+                break;
+        }
+
+        // Skip if no king
+        if (targetKing == null)
+            return;
+
+        if (currentlyDragging.type == ChessPieceType.King)
+        {
+
+        }
+        else
+        {
+            // Check if king is surround by checker
+            List<Vector2Int> tileToBlock = new();
+            Vector2Int[] surroundOffset = 
+            {
+                new(1, 0), new(-1, 0), new(0, 1), new(0, -1),
+                new(1, 1), new(-1, 1), new(1, -1), new(-1, -1)
+            };
+
+            foreach (Vector2Int offset in surroundOffset)
+            {
+                int checkX = targetKing.currentX + offset.x;
+                int checkY = targetKing.currentY + offset.y;
+
+                if (checkX >= 0 && checkX <= TILE_COUNT_X && checkY >= 0 && checkY <= TILE_COUNT_Y)
+                {
+                    ChessPiece piece = chessPieces[checkX, checkY];
+
+                    if (piece != null && piece.team != targetKing.team)
+                    {
+                        Vector2Int opposite = new(targetKing.currentX - offset.x, targetKing.currentY - offset.y);
+
+                        if (chessPieces[opposite.x, opposite.y] == null)
+                            tileToBlock.Add(opposite);
+                    }
+                }
+            }
+            Debug.Log(tileToBlock.Count);
+            if (tileToBlock.Count > 0) //Prevent king move beside checker, prevent piece move away from king, block king path
+                ForceStopJump(tileToBlock, ref availableMoves);
+        }
     }
 
-    private void SimulateMoveForSinglePiece(ChessPiece cp, ref List<Vector2Int> moves, ChessPiece targetKing)
+    private void ForceStopJump(List<Vector2Int> tileToBlock, ref List<Vector2Int> moves)
     {
-        // Save current values, reset after method
-        int actualX = cp.currentX;
-        int actualY = cp.currentY;
-        List<Vector2Int> movesToRemove = new();
+        if (tileToBlock.Count == 1)
+        {
 
-        // Going through every moves, simulate and check if legal move
-
-        // Remove from move list
-        foreach (Vector2Int move in movesToRemove)
-            moves.Remove(move);
+        }
+        else if (currentlyDragging.type != ChessPieceType.King)
+            moves.Clear();
     }
 
     // Operation
