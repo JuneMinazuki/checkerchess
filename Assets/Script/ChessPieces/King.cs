@@ -7,7 +7,7 @@ public class King : ChessPiece
     {
         List<Vector2Int> moves = new();
 
-        Vector2Int[] possibleMoves = new Vector2Int[]
+        Vector2Int[] possibleMoves =
         {
             new (1,0), new (-1,0), new (0,1), new (0,-1),
             new (1,1), new (-1,1), new (1,-1), new (-1,-1),

@@ -7,7 +7,7 @@ public class Knight : ChessPiece
     {
         List<Vector2Int> moves = new();
 
-        Vector2Int[] possibleMoves = new Vector2Int[]{new(2, 1), new(2, -1), new (-2, 1), new (-2, -1), new (1, 2), new (-1, 2), new (1, -2), new (-1, -2)};
+        Vector2Int[] possibleMoves = {new(2, 1), new(2, -1), new (-2, 1), new (-2, -1), new (1, 2), new (-1, 2), new (1, -2), new (-1, -2)};
 
         foreach (Vector2Int move in possibleMoves)
         {

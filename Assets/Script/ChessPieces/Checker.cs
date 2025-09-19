@@ -23,7 +23,7 @@ public class Checker : ChessPiece
         int tileCountY = 10;
 
         // Define all possible jump directions (x, y)
-        Vector2Int[] jumpDirections = new Vector2Int[] { new(0, direction), new(-1, direction), new(1, direction), new(-1, 0), new(1, 0) };
+        Vector2Int[] jumpDirections = { new(0, direction), new(-1, direction), new(1, direction), new(-1, 0), new(1, 0) };
 
         foreach (var jumpDir in jumpDirections)
         {

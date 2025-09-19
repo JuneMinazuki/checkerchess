@@ -67,7 +67,7 @@ public class ChessPiece : MonoBehaviour
         HashSet<SpecialMove>r = new();
 
         // Define all possible jump directions (x, y)
-        Vector2Int[] jumpDirections = new Vector2Int[]
+        Vector2Int[] jumpDirections =
         {
             new (1,0), new (-1,0), new (0,1), new (0,-1),
             new (1,1), new (-1,1), new (1,-1), new (-1,-1),
