@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Tilemaps;
 
 public enum SpecialMove
 {
@@ -564,7 +565,7 @@ public class Chessboard : MonoBehaviour
                     }
                 }
             }
-            Debug.Log(tileToBlock.Count);
+
             if (tileToBlock.Count > 0) //Prevent king move beside checker, prevent piece move away from king, block king path
                 ForceStopJump(tileToBlock, ref availableMoves);
         }
@@ -574,7 +575,13 @@ public class Chessboard : MonoBehaviour
     {
         if (tileToBlock.Count == 1)
         {
-
+            if (moves.Contains(tileToBlock[0]))
+            {
+                moves.Clear();
+                moves.Add(tileToBlock[0]);
+            }
+            else
+                moves.Clear();
         }
         else if (currentlyDragging.type != ChessPieceType.King)
             moves.Clear();
