@@ -533,20 +533,46 @@ public class Chessboard : MonoBehaviour
         if (targetKing == null)
             return;
 
+        Vector2Int[] surroundOffset =
+        {
+            new(1, 0), new(-1, 0), new(0, 1), new(0, -1),
+            new(1, 1), new(-1, 1), new(1, -1), new(-1, -1)
+        };
+
         if (currentlyDragging.type == ChessPieceType.King)
         {
+            List<Vector2Int> movesToRemove = new();
 
+            // Repeat each avaiable moves for the king
+            foreach (Vector2Int move in availableMoves)
+            {
+                foreach (Vector2Int offset in surroundOffset)
+                {
+                    // Check if that move make the king beside a checker
+                    Vector2Int checkpos = move + offset;
+
+                    if (checkpos.x >= 0 && checkpos.x <= TILE_COUNT_X && checkpos.y >= 0 && checkpos.y <= TILE_COUNT_Y)
+                    {
+                        ChessPiece piece = chessPieces[checkpos.x, checkpos.y];
+
+                        if (piece != null && piece.team != targetKing.team)
+                        {
+                            Vector2Int opposite = move - offset;
+
+                            if (chessPieces[opposite.x, opposite.y] == null)
+                                movesToRemove.Add(move);
+                        }
+                    }
+                }
+            }
+
+            availableMoves.RemoveAll(move => movesToRemove.Contains(move));
         }
         else
         {
             // Check if king is surround by checker
             List<Vector2Int> tileToBlock = new();
             List<Vector2Int> tilePinned = new();
-            Vector2Int[] surroundOffset =
-            {
-                new(1, 0), new(-1, 0), new(0, 1), new(0, -1),
-                new(1, 1), new(-1, 1), new(1, -1), new(-1, -1)
-            };
 
             foreach (Vector2Int offset in surroundOffset)
             {
@@ -569,7 +595,7 @@ public class Chessboard : MonoBehaviour
                 }
             }
 
-            if (tileToBlock.Count > 0) //Prevent king move beside checker, prevent piece move away from king
+            if (tileToBlock.Count > 0)
                 ForceStopJump(tileToBlock, ref availableMoves);
             if (tilePinned.Contains(new(currentlyDragging.currentX, currentlyDragging.currentY)))
                 availableMoves.Clear();
