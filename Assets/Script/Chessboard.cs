@@ -541,7 +541,8 @@ public class Chessboard : MonoBehaviour
         {
             // Check if king is surround by checker
             List<Vector2Int> tileToBlock = new();
-            Vector2Int[] surroundOffset = 
+            List<Vector2Int> tilePinned = new();
+            Vector2Int[] surroundOffset =
             {
                 new(1, 0), new(-1, 0), new(0, 1), new(0, -1),
                 new(1, 1), new(-1, 1), new(1, -1), new(-1, -1)
@@ -562,12 +563,16 @@ public class Chessboard : MonoBehaviour
 
                         if (chessPieces[opposite.x, opposite.y] == null)
                             tileToBlock.Add(opposite);
+                        else
+                            tilePinned.Add(opposite);
                     }
                 }
             }
 
-            if (tileToBlock.Count > 0) //Prevent king move beside checker, prevent piece move away from king, block king path
+            if (tileToBlock.Count > 0) //Prevent king move beside checker, prevent piece move away from king
                 ForceStopJump(tileToBlock, ref availableMoves);
+            if (tilePinned.Contains(new(currentlyDragging.currentX, currentlyDragging.currentY)))
+                availableMoves.Clear();
         }
     }
 
