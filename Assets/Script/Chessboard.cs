@@ -533,6 +533,7 @@ public class Chessboard : MonoBehaviour
         if (targetKing == null)
             return;
 
+        int direction = (currentlyDragging.team == 0) ? 1 : -1;
         Vector2Int[] surroundOffset =
         {
             new(1, 0), new(-1, 0), new(0, 1), new(0, -1),
@@ -557,10 +558,13 @@ public class Chessboard : MonoBehaviour
 
                         if (piece != null && piece.team != targetKing.team)
                         {
-                            Vector2Int opposite = move - offset;
+                            if (direction * move.y <= direction * checkpos.y || piece.type == ChessPieceType.QueenChecker)
+                            {
+                                Vector2Int opposite = move - offset;
 
-                            if (chessPieces[opposite.x, opposite.y] == null)
-                                movesToRemove.Add(move);
+                                if (chessPieces[opposite.x, opposite.y] == null || (opposite.x == targetKing.currentX && opposite.y == targetKing.currentY))
+                                    movesToRemove.Add(move);
+                            }
                         }
                     }
                 }
@@ -585,12 +589,15 @@ public class Chessboard : MonoBehaviour
 
                     if (piece != null && piece.team != targetKing.team)
                     {
-                        Vector2Int opposite = new(targetKing.currentX - offset.x, targetKing.currentY - offset.y);
+                        if (direction * targetKing.currentY <= direction * checkY || piece.type == ChessPieceType.QueenChecker)
+                        {
+                            Vector2Int opposite = new(targetKing.currentX - offset.x, targetKing.currentY - offset.y);
 
-                        if (chessPieces[opposite.x, opposite.y] == null)
-                            tileToBlock.Add(opposite);
-                        else
-                            tilePinned.Add(opposite);
+                            if (chessPieces[opposite.x, opposite.y] == null)
+                                tileToBlock.Add(opposite);
+                            else
+                                tilePinned.Add(opposite);
+                        }
                     }
                 }
             }
