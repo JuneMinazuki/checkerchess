@@ -625,6 +625,20 @@ public class Chessboard : MonoBehaviour
             moves.Clear();
     }
 
+    private bool CheckForCheckmate()
+    {
+        // Get tileToBlock
+
+        // Check if king is under attack (tileToBlock.Count > 0), if no end
+
+        // If yes, get pinnedTile
+
+        // Get all defending piece move
+
+        // Check if any piece not in pinnedTile can move to there
+        return false;
+    }
+
     // Operation
     private bool ContainsValidMove(ref List<Vector2Int> moves, Vector2 pos)
     {
@@ -701,6 +715,9 @@ public class Chessboard : MonoBehaviour
                 return true;
             }
         }
+
+        if (CheckForCheckmate())
+            CheckMate(cp.team);
 
         isWhiteTurn = !isWhiteTurn;
         midGameUI.transform.GetChild(0).gameObject.SetActive(false);
