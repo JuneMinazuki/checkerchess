@@ -627,26 +627,29 @@ public class Chessboard : MonoBehaviour
 
     private bool CheckForCheckmate()
     {
+        Vector2Int[] lastMove = moveList[^1];
+        int targetTeam = (chessPieces[lastMove[1].x, lastMove[1].y].team == 0) ? 1 : 0;
+        List<ChessPiece> defendingPiece = new();
         ChessPiece targetKing = null;
 
         for (int x = 0; x < TILE_COUNT_X; x++)
         {
             for (int y = 0; y < TILE_COUNT_Y; y++)
-                if (chessPieces[x, y] != null && chessPieces[x, y].type == ChessPieceType.King && chessPieces[x, y].team == currentlyDragging.team)
+            {
+                if (chessPieces[x, y] != null && chessPieces[x, y].team == targetTeam)
                 {
-                    targetKing = chessPieces[x, y];
-                    break;
-                }
+                    if (chessPieces[x, y].type == ChessPieceType.King)
+                        targetKing = chessPieces[x, y];
 
-            if (targetKing != null)
-                break;
+                    defendingPiece.Add(chessPieces[x, y]);
+                }
+            }
         }
 
         // Skip if no king
         if (targetKing == null)
             return false;
 
-        // Get tileToBlock
         int direction = (currentlyDragging.team == 0) ? 1 : -1;
         Vector2Int[] surroundOffset =
         {
@@ -682,14 +685,25 @@ public class Chessboard : MonoBehaviour
             }
         }
 
-        // Check if king is under attack (tileToBlock.Count > 0), if no end
-
-        // If yes, get pinnedTile
-
-        // Get all defending piece move
+        // Check if king is under attack, if no end
+        if (tileToBlock.Count == 0)
+            return false;
 
         // Check if any piece not in pinnedTile can move to there
-        return false;
+        foreach (ChessPiece cp in defendingPiece)
+        {
+            if (tilePinned.Contains(new(cp.currentX, cp.currentY)))
+                break;
+
+            List<Vector2Int> defendingMoves = cp.GetAvailableMoves(ref chessPieces, TILE_COUNT_X, TILE_COUNT_Y);
+            HashSet<SpecialMove> sm = cp.GetSpecialMoves(ref chessPieces, ref moveList, ref defendingMoves);
+            PreventCheck();
+
+            if (defendingMoves.Count > 0)
+                return true;
+        }
+
+        return true;
     }
 
     // Operation
