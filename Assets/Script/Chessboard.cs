@@ -627,7 +627,60 @@ public class Chessboard : MonoBehaviour
 
     private bool CheckForCheckmate()
     {
+        ChessPiece targetKing = null;
+
+        for (int x = 0; x < TILE_COUNT_X; x++)
+        {
+            for (int y = 0; y < TILE_COUNT_Y; y++)
+                if (chessPieces[x, y] != null && chessPieces[x, y].type == ChessPieceType.King && chessPieces[x, y].team == currentlyDragging.team)
+                {
+                    targetKing = chessPieces[x, y];
+                    break;
+                }
+
+            if (targetKing != null)
+                break;
+        }
+
+        // Skip if no king
+        if (targetKing == null)
+            return false;
+
         // Get tileToBlock
+        int direction = (currentlyDragging.team == 0) ? 1 : -1;
+        Vector2Int[] surroundOffset =
+        {
+            new(1, 0), new(-1, 0), new(0, 1), new(0, -1),
+            new(1, 1), new(-1, 1), new(1, -1), new(-1, -1)
+        };
+    
+        // Check if king is surround by checker
+        List<Vector2Int> tileToBlock = new();
+        List<Vector2Int> tilePinned = new();
+
+        foreach (Vector2Int offset in surroundOffset)
+        {
+            int checkX = targetKing.currentX + offset.x;
+            int checkY = targetKing.currentY + offset.y;
+
+            if (checkX >= 0 && checkX <= TILE_COUNT_X && checkY >= 0 && checkY <= TILE_COUNT_Y)
+            {
+                ChessPiece piece = chessPieces[checkX, checkY];
+
+                if (piece != null && piece.team != targetKing.team)
+                {
+                    if (direction * targetKing.currentY <= direction * checkY || piece.type == ChessPieceType.QueenChecker)
+                    {
+                        Vector2Int opposite = new(targetKing.currentX - offset.x, targetKing.currentY - offset.y);
+
+                        if (chessPieces[opposite.x, opposite.y] == null)
+                            tileToBlock.Add(opposite);
+                        else
+                            tilePinned.Add(opposite);
+                    }
+                }
+            }
+        }
 
         // Check if king is under attack (tileToBlock.Count > 0), if no end
 
