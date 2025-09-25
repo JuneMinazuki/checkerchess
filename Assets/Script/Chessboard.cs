@@ -125,7 +125,7 @@ public class Chessboard : MonoBehaviour
                             // Get list of special moves
                             specialMoves = currentlyDragging.GetSpecialMoves(ref chessPieces, ref moveList, ref availableMoves);
 
-                            PreventCheck();
+                            PreventCheck(ref availableMoves);
 
                             HighlightTiles();
                         }
@@ -152,7 +152,7 @@ public class Chessboard : MonoBehaviour
                             // Get list of special moves
                             specialMoves = currentlyDragging.GetSpecialMoves(ref chessPieces, ref moveList, ref availableMoves);
 
-                            PreventCheck();
+                            PreventCheck(ref availableMoves);
 
                             HighlightTiles();
                         }
@@ -512,7 +512,7 @@ public class Chessboard : MonoBehaviour
         specialMoves.Clear();
     }
 
-    private void PreventCheck()
+    private void PreventCheck(ref List<Vector2Int> moves)
     {
         ChessPiece targetKing = null;
 
@@ -545,7 +545,7 @@ public class Chessboard : MonoBehaviour
             List<Vector2Int> movesToRemove = new();
 
             // Repeat each avaiable moves for the king
-            foreach (Vector2Int move in availableMoves)
+            foreach (Vector2Int move in moves)
             {
                 foreach (Vector2Int offset in surroundOffset)
                 {
@@ -570,7 +570,7 @@ public class Chessboard : MonoBehaviour
                 }
             }
 
-            availableMoves.RemoveAll(move => movesToRemove.Contains(move));
+            moves.RemoveAll(move => movesToRemove.Contains(move));
         }
         else
         {
@@ -603,9 +603,9 @@ public class Chessboard : MonoBehaviour
             }
 
             if (tileToBlock.Count > 0)
-                ForceStopJump(tileToBlock, ref availableMoves);
+                ForceStopJump(tileToBlock, ref moves);
             if (tilePinned.Contains(new(currentlyDragging.currentX, currentlyDragging.currentY)))
-                availableMoves.Clear();
+                moves.Clear();
         }
     }
 
@@ -697,7 +697,7 @@ public class Chessboard : MonoBehaviour
 
             List<Vector2Int> defendingMoves = cp.GetAvailableMoves(ref chessPieces, TILE_COUNT_X, TILE_COUNT_Y);
             HashSet<SpecialMove> sm = cp.GetSpecialMoves(ref chessPieces, ref moveList, ref defendingMoves);
-            PreventCheck();
+            PreventCheck(ref defendingMoves);
 
             if (defendingMoves.Count > 0)
                 return false;
