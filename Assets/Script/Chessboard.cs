@@ -700,7 +700,7 @@ public class Chessboard : MonoBehaviour
             PreventCheck();
 
             if (defendingMoves.Count > 0)
-                return true;
+                return false;
         }
 
         return true;
