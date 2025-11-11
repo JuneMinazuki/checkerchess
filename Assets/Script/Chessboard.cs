@@ -577,6 +577,7 @@ public class Chessboard : MonoBehaviour
             // Check if king is surround by checker
             List<Vector2Int> tileToBlock = new();
             List<Vector2Int> tilePinned = new();
+            List<Vector2Int> tileToCapture = new();
 
             foreach (Vector2Int offset in surroundOffset)
             {
@@ -593,6 +594,7 @@ public class Chessboard : MonoBehaviour
                         {
                             Vector2Int opposite = new(targetKing.currentX - offset.x, targetKing.currentY - offset.y);
 
+                            tileToCapture.Add(new(checkX, checkY));
                             if (chessPieces[opposite.x, opposite.y] == null)
                                 tileToBlock.Add(opposite);
                             else
@@ -602,27 +604,29 @@ public class Chessboard : MonoBehaviour
                 }
             }
 
-            if (tileToBlock.Count > 0)
-                ForceStopJump(tileToBlock, ref moves);
+            // Remove move that don't block
+            if (tileToBlock.Count == 1)
+                ForceStopJump(tileToBlock, tileToCapture, ref moves);
+            // Only king can be move if more than 1 tile to block
+            else if (tileToBlock.Count > 1 && currentlyDragging.type != ChessPieceType.King)
+                moves.Clear();
+            
+            // Prevent pinned piece from moving away
             if (tilePinned.Contains(new(currentlyDragging.currentX, currentlyDragging.currentY)))
                 moves.Clear();
         }
     }
 
-    private void ForceStopJump(List<Vector2Int> tileToBlock, ref List<Vector2Int> moves)
+    private void ForceStopJump(List<Vector2Int> tileToBlock, List<Vector2Int> tileToCapture, ref List<Vector2Int> moves)
     {
-        if (tileToBlock.Count == 1)
-        {
-            if (moves.Contains(tileToBlock[0]))
-            {
-                moves.Clear();
-                moves.Add(tileToBlock[0]);
-            }
-            else
-                moves.Clear();
-        }
-        else if (currentlyDragging.type != ChessPieceType.King)
-            moves.Clear();
+        HashSet<Vector2Int> availableMoves = new(tileToBlock);
+        availableMoves.UnionWith(tileToCapture);
+
+        // If no thread detected
+        if (availableMoves.Count == 0)
+            return;
+
+        moves.RemoveAll(m => !availableMoves.Contains(m));
     }
 
     private bool CheckForCheckmate()
