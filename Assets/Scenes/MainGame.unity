@@ -1022,6 +1022,7 @@ MonoBehaviour:
   deathSpacing: 0.37
   victoryScreen: {fileID: 682019289}
   midGameUI: {fileID: 1827470608}
+  mainCamera: {fileID: 519420032}
   prefabs:
   - {fileID: 5613462401677398894, guid: be5cda430beef44559a07c1396f7a22d, type: 3}
   - {fileID: 3597148433405763534, guid: a6bc8f33ee45e4cdaa49eae7437cd358, type: 3}
@@ -1031,6 +1032,9 @@ MonoBehaviour:
   - {fileID: 1544691235138679494, guid: 41328ab2f3dd342d18d0e47eeda46b17, type: 3}
   - {fileID: 5055510507014764833, guid: 4333f428279754fa795143bd868e0025, type: 3}
   - {fileID: 6343466622803292975, guid: 631b14d02f9e64751bc9907ec00c3882, type: 3}
+  chessBoardSprite:
+  - {fileID: 1763014460331064234, guid: 7a79e02283fc2455eac5217a0ce8e78f, type: 3}
+  - {fileID: 2908342701436633435, guid: 31a659ee4f95e4df59af995efcd294fc, type: 3}
 --- !u!212 &975536235
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1318,7 +1322,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1165734727}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 975536234}
+        m_TargetAssemblyTypeName: Chessboard, Assembly-CSharp
+        m_MethodName: OnFlipBoardButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1165734727
 MonoBehaviour:
   m_ObjectHideFlags: 0

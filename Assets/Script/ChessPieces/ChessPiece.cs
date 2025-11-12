@@ -21,6 +21,7 @@ public class ChessPiece : MonoBehaviour
     public int currentX;
     public int currentY;
     public ChessPieceType type;
+    public Quaternion desiredRotation;
 
     private Vector3 desiredPostiton;
     private Vector3 desiredScale = new(2.25f, 2.25f, 2.25f);
@@ -29,6 +30,7 @@ public class ChessPiece : MonoBehaviour
     {
         transform.position = Vector3.Lerp(transform.position, desiredPostiton, Time.deltaTime * 10);
         transform.localScale = Vector3.Lerp(transform.localScale, desiredScale, Time.deltaTime * 10);
+        transform.rotation = desiredRotation;
     }
 
     public virtual List<Vector2Int> GetAvailableMoves(ref ChessPiece[,] board, int tileCountX, int tileCountY)

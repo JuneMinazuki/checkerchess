@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Tilemaps;
 
 public enum SpecialMove
 {
@@ -11,6 +10,7 @@ public enum SpecialMove
     JumpCapture
 }
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class Chessboard : MonoBehaviour
 {
     [Header("Art And Sprite")]
@@ -24,9 +24,14 @@ public class Chessboard : MonoBehaviour
     [Header("UI and Canvas")]
     [SerializeField] private GameObject victoryScreen;
     [SerializeField] private GameObject midGameUI;
+    [SerializeField] private Transform mainCamera;
 
     [Header("Prefabs & Materials")]
     [SerializeField] private GameObject[] prefabs;
+    [SerializeField] private Sprite[] chessBoardSprite;
+
+    // UI Object
+    private SpriteRenderer chessBoardRenderer;
 
     //LOGIC
     private ChessPiece[,] chessPieces;
@@ -45,9 +50,12 @@ public class Chessboard : MonoBehaviour
     private List<Vector2Int[]> moveList = new();
     private HashSet<SpecialMove> specialMoves;
     private bool isJumpCapture = false;
+    private bool boardFlipped = false;
 
     private void Awake()
     {
+        chessBoardRenderer = GetComponent<SpriteRenderer>();
+
         isWhiteTurn = true;
 
         GenerateAllTiles(tileSize, TILE_COUNT_X, TILE_COUNT_Y);
@@ -318,6 +326,7 @@ public class Chessboard : MonoBehaviour
         victoryScreen.transform.GetChild(winningTeam).gameObject.SetActive(true);
     }
 
+    // Button Logic
     public void OnExitButton()
     {
         Application.Quit();
@@ -376,6 +385,40 @@ public class Chessboard : MonoBehaviour
         midGameUI.transform.GetChild(0).gameObject.SetActive(false);
 
         currentlyDragging = null;
+    }
+
+    public void OnFlipBoardButton()
+    {
+        // Get all pieces position
+        List<ChessPiece> pieces = new();
+
+        for (int x = 0; x < TILE_COUNT_X; x++)
+        {
+            for (int y = 0; y < TILE_COUNT_Y; y++)
+            {
+                if (chessPieces[x, y] != null)
+                    pieces.Add(chessPieces[x, y]);
+            }
+        }
+
+        if (boardFlipped)
+        {
+            mainCamera.rotation = Quaternion.identity;
+            chessBoardRenderer.sprite = chessBoardSprite[0];
+
+            foreach (ChessPiece cp in pieces)
+                cp.desiredRotation = Quaternion.identity;
+        }
+        else
+        {
+            mainCamera.rotation = Quaternion.Euler(0, 0, 180);
+            chessBoardRenderer.sprite = chessBoardSprite[1];
+
+            foreach (ChessPiece cp in pieces)
+                cp.desiredRotation = Quaternion.Euler(0, 0, 180);
+        }
+
+        boardFlipped = !boardFlipped;
     }
 
     //Special Moves
@@ -610,7 +653,7 @@ public class Chessboard : MonoBehaviour
             // Only king can be move if more than 1 tile to block
             else if (tileToBlock.Count > 1 && currentlyDragging.type != ChessPieceType.King)
                 moves.Clear();
-            
+
             // Prevent pinned piece from moving away
             if (tilePinned.Contains(new(currentlyDragging.currentX, currentlyDragging.currentY)))
                 moves.Clear();
@@ -660,7 +703,7 @@ public class Chessboard : MonoBehaviour
             new(1, 0), new(-1, 0), new(0, 1), new(0, -1),
             new(1, 1), new(-1, 1), new(1, -1), new(-1, -1)
         };
-    
+
         // Check if king is surround by checker
         List<Vector2Int> tileToBlock = new();
         List<Vector2Int> tilePinned = new();
@@ -762,7 +805,7 @@ public class Chessboard : MonoBehaviour
         chessPieces[x, y] = cp;
         chessPieces[previousPosition.x, previousPosition.y] = null;
 
-        moveList.Add(new Vector2Int[]{previousPosition, new(x,y)});
+        moveList.Add(new Vector2Int[] { previousPosition, new(x, y) });
         PositionSinglePiece(x, y);
 
         ProcessSpecialMove();
