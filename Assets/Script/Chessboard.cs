@@ -408,6 +408,12 @@ public class Chessboard : MonoBehaviour
 
             foreach (ChessPiece cp in pieces)
                 cp.desiredRotation = Quaternion.identity;
+
+            foreach (ChessPiece cp in deadBlacks)
+                cp.desiredRotation = Quaternion.identity;
+
+            foreach (ChessPiece cp in deadWhites)
+                cp.desiredRotation = Quaternion.identity;
         }
         else
         {
@@ -415,6 +421,12 @@ public class Chessboard : MonoBehaviour
             chessBoardRenderer.sprite = chessBoardSprite[1];
 
             foreach (ChessPiece cp in pieces)
+                cp.desiredRotation = Quaternion.Euler(0, 0, 180);
+
+            foreach (ChessPiece cp in deadBlacks)
+                cp.desiredRotation = Quaternion.Euler(0, 0, 180);
+
+            foreach (ChessPiece cp in deadWhites)
                 cp.desiredRotation = Quaternion.Euler(0, 0, 180);
         }
 
