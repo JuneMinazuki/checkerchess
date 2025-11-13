@@ -459,10 +459,9 @@ public class Chessboard : MonoBehaviour
                     deadWhites.Add(ocp);
                     ocp.SetScale(Vector3.one * deathSize);
                     if (deadWhites.Count <= 8)
-                        ocp.SetPosition(new Vector3(-7.92f, -0.88f, zOffset) + deathSpacing * (deadWhites.Count - 1) * Vector3.right);
+                        ocp.SetPosition(new Vector3(-5.00f, -1.76f, zOffset) + deathSpacing * (deadWhites.Count - 1) * Vector3.up);
                     else
-                        ocp.SetPosition(new Vector3(-7.92f, -1.38f, zOffset) + deathSpacing * (deadWhites.Count - 9) * Vector3.right);
-                }
+                        ocp.SetPosition(new Vector3(-5.50f, -1.76f, zOffset) + deathSpacing * (deadWhites.Count - 9) * new Vector3(0, 1, -0.1f));                }
                 else
                 {
                     if (ocp.type == ChessPieceType.King)
@@ -471,9 +470,9 @@ public class Chessboard : MonoBehaviour
                     deadBlacks.Add(ocp);
                     ocp.SetScale(Vector3.one * deathSize);
                     if (deadBlacks.Count <= 8)
-                        ocp.SetPosition(new Vector3(-7.92f, 0.88f, zOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.right);
+                        ocp.SetPosition(new Vector3(5.00f, 1.76f, zOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.down);
                     else
-                        ocp.SetPosition(new Vector3(-7.92f, 0.38f, zOffset) + deathSpacing * (deadBlacks.Count - 9) * Vector3.right);
+                        ocp.SetPosition(new Vector3(5.50f, -1.76f, zOffset) + deathSpacing * (deadBlacks.Count - 9) * new Vector3(0, -1, -0.1f));
                 }
 
                 isJumpCapture = true;
@@ -793,9 +792,9 @@ public class Chessboard : MonoBehaviour
                 deadWhites.Add(ocp);
                 ocp.SetScale(Vector3.one * deathSize);
                 if (deadWhites.Count <= 8)
-                    ocp.SetPosition(new Vector3(-7.92f, -0.88f, zOffset) + deathSpacing * (deadWhites.Count - 1) * Vector3.right);
+                    ocp.SetPosition(new Vector3(-5.00f, -1.76f, zOffset) + deathSpacing * (deadWhites.Count - 1) * new Vector3(0, 1, -0.1f));
                 else
-                    ocp.SetPosition(new Vector3(-7.92f, -1.38f, zOffset) + deathSpacing * (deadWhites.Count - 9) * Vector3.right);
+                    ocp.SetPosition(new Vector3(-5.50f, -1.76f, zOffset) + deathSpacing * (deadWhites.Count - 9) * new Vector3(0, 1, -0.1f));
 
                 if (deadWhites.Count >= 12)
                     CheckMate(1);
@@ -805,9 +804,9 @@ public class Chessboard : MonoBehaviour
                 deadBlacks.Add(ocp);
                 ocp.SetScale(Vector3.one * deathSize);
                 if (deadBlacks.Count <= 8)
-                    ocp.SetPosition(new Vector3(-7.92f, 0.88f, zOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.right);
+                    ocp.SetPosition(new Vector3(5.00f, 1.76f, zOffset) + deathSpacing * (deadBlacks.Count - 1) * new Vector3(0, -1, -0.1f));
                 else
-                    ocp.SetPosition(new Vector3(-7.92f, 0.38f, zOffset) + deathSpacing * (deadBlacks.Count - 9) * Vector3.right);
+                    ocp.SetPosition(new Vector3(5.50f, -1.76f, zOffset) + deathSpacing * (deadBlacks.Count - 9) * new Vector3(0, -1, -0.1f));
 
                 if (deadBlacks.Count >= 12)
                     CheckMate(0);
