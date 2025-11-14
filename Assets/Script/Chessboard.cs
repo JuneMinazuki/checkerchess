@@ -406,28 +406,18 @@ public class Chessboard : MonoBehaviour
             mainCamera.rotation = Quaternion.identity;
             chessBoardRenderer.sprite = chessBoardSprite[0];
 
-            foreach (ChessPiece cp in pieces)
-                cp.desiredRotation = Quaternion.identity;
-
-            foreach (ChessPiece cp in deadBlacks)
-                cp.desiredRotation = Quaternion.identity;
-
-            foreach (ChessPiece cp in deadWhites)
-                cp.desiredRotation = Quaternion.identity;
+            FlipPieces(pieces, Quaternion.identity);
+            FlipPieces(deadBlacks, Quaternion.identity);
+            FlipPieces(deadWhites, Quaternion.identity);
         }
         else
         {
             mainCamera.rotation = Quaternion.Euler(0, 0, 180);
             chessBoardRenderer.sprite = chessBoardSprite[1];
 
-            foreach (ChessPiece cp in pieces)
-                cp.desiredRotation = Quaternion.Euler(0, 0, 180);
-
-            foreach (ChessPiece cp in deadBlacks)
-                cp.desiredRotation = Quaternion.Euler(0, 0, 180);
-
-            foreach (ChessPiece cp in deadWhites)
-                cp.desiredRotation = Quaternion.Euler(0, 0, 180);
+            FlipPieces(pieces, Quaternion.Euler(0, 0, 180));
+            FlipPieces(deadBlacks, Quaternion.Euler(0, 0, 180));
+            FlipPieces(deadWhites, Quaternion.Euler(0, 0, 180));
         }
 
         boardFlipped = !boardFlipped;
@@ -450,6 +440,8 @@ public class Chessboard : MonoBehaviour
                 ChessPiece ocp = chessPieces[capturedPieceX, capturedPieceY];
                 chessPieces[capturedPieceX, capturedPieceY] = null;
 
+                float zDeathSpacing = boardFlipped ? -0.1f : 0.1f;
+
                 // Capture enemy piece
                 if (ocp.team == 0)
                 {
@@ -459,9 +451,10 @@ public class Chessboard : MonoBehaviour
                     deadWhites.Add(ocp);
                     ocp.SetScale(Vector3.one * deathSize);
                     if (deadWhites.Count <= 8)
-                        ocp.SetPosition(new Vector3(-5.00f, -1.76f, zOffset) + deathSpacing * (deadWhites.Count - 1) * Vector3.up);
+                        ocp.SetPosition(new Vector3(-5.00f, -1.76f, zOffset) + deathSpacing * (deadWhites.Count - 1) * new Vector3(0, 1, zDeathSpacing));
                     else
-                        ocp.SetPosition(new Vector3(-5.50f, -1.76f, zOffset) + deathSpacing * (deadWhites.Count - 9) * new Vector3(0, 1, -0.1f));                }
+                        ocp.SetPosition(new Vector3(-5.50f, -1.76f, zOffset) + deathSpacing * (deadWhites.Count - 9) * new Vector3(0, 1, zDeathSpacing));
+                }
                 else
                 {
                     if (ocp.type == ChessPieceType.King)
@@ -470,9 +463,9 @@ public class Chessboard : MonoBehaviour
                     deadBlacks.Add(ocp);
                     ocp.SetScale(Vector3.one * deathSize);
                     if (deadBlacks.Count <= 8)
-                        ocp.SetPosition(new Vector3(5.00f, 1.76f, zOffset) + deathSpacing * (deadBlacks.Count - 1) * Vector3.down);
+                        ocp.SetPosition(new Vector3(5.00f, 1.76f, zOffset) + deathSpacing * (deadBlacks.Count - 1) * new Vector3(0, -1, -zDeathSpacing));
                     else
-                        ocp.SetPosition(new Vector3(5.50f, -1.76f, zOffset) + deathSpacing * (deadBlacks.Count - 9) * new Vector3(0, -1, -0.1f));
+                        ocp.SetPosition(new Vector3(5.50f, 1.76f, zOffset) + deathSpacing * (deadBlacks.Count - 9) * new Vector3(0, -1, -zDeathSpacing));
                 }
 
                 isJumpCapture = true;
@@ -786,15 +779,17 @@ public class Chessboard : MonoBehaviour
         {
             ChessPiece ocp = chessPieces[x, y];
 
+            float zDeathSpacing = boardFlipped ? -0.1f : 0.1f;
+
             // Capture enemy piece
             if (ocp.team == 0)
             {
                 deadWhites.Add(ocp);
                 ocp.SetScale(Vector3.one * deathSize);
                 if (deadWhites.Count <= 8)
-                    ocp.SetPosition(new Vector3(-5.00f, -1.76f, zOffset) + deathSpacing * (deadWhites.Count - 1) * new Vector3(0, 1, -0.1f));
+                    ocp.SetPosition(new Vector3(-5.00f, -1.76f, zOffset) + deathSpacing * (deadWhites.Count - 1) * new Vector3(0, 1, zDeathSpacing));
                 else
-                    ocp.SetPosition(new Vector3(-5.50f, -1.76f, zOffset) + deathSpacing * (deadWhites.Count - 9) * new Vector3(0, 1, -0.1f));
+                    ocp.SetPosition(new Vector3(-5.50f, -1.76f, zOffset) + deathSpacing * (deadWhites.Count - 9) * new Vector3(0, 1, zDeathSpacing));
 
                 if (deadWhites.Count >= 12)
                     CheckMate(1);
@@ -804,9 +799,9 @@ public class Chessboard : MonoBehaviour
                 deadBlacks.Add(ocp);
                 ocp.SetScale(Vector3.one * deathSize);
                 if (deadBlacks.Count <= 8)
-                    ocp.SetPosition(new Vector3(5.00f, 1.76f, zOffset) + deathSpacing * (deadBlacks.Count - 1) * new Vector3(0, -1, -0.1f));
+                    ocp.SetPosition(new Vector3(5.00f, 1.76f, zOffset) + deathSpacing * (deadBlacks.Count - 1) * new Vector3(0, -1, -zDeathSpacing));
                 else
-                    ocp.SetPosition(new Vector3(5.50f, -1.76f, zOffset) + deathSpacing * (deadBlacks.Count - 9) * new Vector3(0, -1, -0.1f));
+                    ocp.SetPosition(new Vector3(5.50f, 1.76f, zOffset) + deathSpacing * (deadBlacks.Count - 9) * new Vector3(0, -1, -zDeathSpacing));
 
                 if (deadBlacks.Count >= 12)
                     CheckMate(0);
@@ -859,5 +854,14 @@ public class Chessboard : MonoBehaviour
                     return new Vector2Int(x, y);
 
         return -Vector2Int.one; //Invalid return
+    }
+
+    private void FlipPieces(List<ChessPiece> chessPieces, Quaternion rotation)
+    {
+        foreach (ChessPiece cp in chessPieces)
+        {
+            cp.desiredRotation = rotation;
+            cp.FlipPosition();
+        }
     }
 }

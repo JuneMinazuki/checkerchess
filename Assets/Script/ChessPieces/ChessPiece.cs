@@ -94,4 +94,10 @@ public class ChessPiece : MonoBehaviour
 
         return r;        
     }
+
+    public void FlipPosition()
+    {
+        desiredPostiton = new Vector3(transform.position.x, transform.position.y, transform.position.z * -1);
+        transform.position = desiredPostiton;
+    }
 }
