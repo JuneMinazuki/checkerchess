@@ -28,7 +28,7 @@ public class Pawn : ChessPiece
             int nextX = currentX + xOffset;
             int nextY = currentY + direction;
 
-            if (nextX >= 0 && nextX < tileCountX && nextY >= 0 && nextY < tileCountY)
+            if (nextX >= 1 && nextX < tileCountX - 1 && nextY >= 0 && nextY < tileCountY)
                 if (board[nextX, nextY] != null && board[nextX, nextY].team != team)
                     moves.Add(new Vector2Int(nextX, nextY));
         }
