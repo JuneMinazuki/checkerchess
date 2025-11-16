@@ -280,6 +280,7 @@ public class Chessboard : MonoBehaviour
         chessPieces[x, y].currentX = x;
         chessPieces[x, y].currentY = y;
         chessPieces[x, y].SetPosition(GetTileCenter(x, y), force);
+        chessPieces[x, y].desiredRotation = boardFlipped ? Quaternion.Euler(0, 0, 180) : Quaternion.identity ;
     }
 
     private Vector3 GetTileCenter(int x, int y)
