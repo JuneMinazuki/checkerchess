@@ -15,8 +15,13 @@ public enum ChessPieceType
     QueenChecker = 8
 }
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class ChessPiece : MonoBehaviour
 {
+    [Header("Sprite")]
+    public Sprite whiteSprite;
+    public Sprite blackSprite;
+
     public int team;
     public int currentX;
     public int currentY;
@@ -25,6 +30,12 @@ public class ChessPiece : MonoBehaviour
 
     private Vector3 desiredPostiton;
     private Vector3 desiredScale = new(2.25f, 2.25f, 2.25f);
+    private SpriteRenderer spriteRenderer;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
     private void Update()
     {
@@ -99,5 +110,16 @@ public class ChessPiece : MonoBehaviour
     {
         desiredPostiton = new Vector3(transform.position.x, transform.position.y, transform.position.z * -1);
         transform.position = desiredPostiton;
+    }
+
+    public void UpdateSprite()
+    {
+        if (spriteRenderer == null) 
+            spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (team == 0)
+            spriteRenderer.sprite = whiteSprite;
+        else
+            spriteRenderer.sprite = blackSprite;
     }
 }
