@@ -97,7 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02e426f7670c44627b7325437d75b455, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::King
+  whiteSprite: {fileID: 3286163911610860551, guid: a25df7f31ad994863844c2acd5dacb17, type: 3}
+  blackSprite: {fileID: 3286163911610860551, guid: 688ae8e2ded194e408720648f7d6acfd, type: 3}
   team: 0
   currentX: 0
   currentY: 0
   type: 0
+  desiredRotation: {x: 0, y: 0, z: 0, w: 0}
