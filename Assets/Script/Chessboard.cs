@@ -55,6 +55,7 @@ public class Chessboard : MonoBehaviour
     private HashSet<SpecialMove> specialMoves;
     private bool isJumpCapture = false;
     private bool boardFlipped = false;
+    private bool gameStart = false;
     private bool isWhiteChess = true;
     private int timeLimit;
 
@@ -63,8 +64,6 @@ public class Chessboard : MonoBehaviour
         chessBoardRenderer = GetComponent<SpriteRenderer>();
 
         GenerateAllTiles(tileSize, TILE_COUNT_X, TILE_COUNT_Y);
-
-        StartGame();
     }
 
     private void Update()
@@ -75,16 +74,18 @@ public class Chessboard : MonoBehaviour
             return;
         }
 
-        // If a mouse is present and being used
-        if (Mouse.current != null)
-            HandleInput(Mouse.current.position.ReadValue(), Mouse.current.leftButton.wasPressedThisFrame);
-
-
-        // If a touch is present and being used
-        if (Input.touchCount > 0)
+        if (gameStart)
         {
-            Touch touch = Input.GetTouch(0);
-            HandleInput(touch.position, touch.phase == UnityEngine.TouchPhase.Began);
+            // If a mouse is present and being used
+            if (Mouse.current != null)
+                HandleInput(Mouse.current.position.ReadValue(), Mouse.current.leftButton.wasPressedThisFrame);
+
+            // If a touch is present and being used
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
+                HandleInput(touch.position, touch.phase == UnityEngine.TouchPhase.Began);
+            }
         }
     }
 
@@ -380,6 +381,12 @@ public class Chessboard : MonoBehaviour
     }
 
     // Button Logic
+    public void OnStartButton()
+    {
+        gameStart = true;
+        StartGame();
+    }
+
     public void OnExitButton()
     {
         Application.Quit();
