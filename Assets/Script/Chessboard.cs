@@ -389,48 +389,13 @@ public class Chessboard : MonoBehaviour
 
     public void OnExitButton()
     {
-        Application.Quit();
+        gameStart = false;
+        CleanUpGame();
     }
 
     public void OnResetButton()
     {
-        // Hide UI
-        victoryScreen.transform.GetChild(0).gameObject.SetActive(false);
-        victoryScreen.transform.GetChild(1).gameObject.SetActive(false);
-        victoryScreen.SetActive(false);
-
-        // Show Mid-Game UI
-        midGameUI.SetActive(true);
-
-        // Field Reset
-        currentlyDragging = null;
-        availableMoves.Clear();
-        moveList.Clear();
-        currentSelecting = -Vector2Int.one;
-        isJumpCapture = false;
-
-        // Clean Up
-        for (int x = 0; x < TILE_COUNT_X; x++)
-        {
-            for (int y = 0; y < TILE_COUNT_Y; y++)
-            {
-                if (chessPieces[x, y] != null)
-                    Destroy(chessPieces[x, y].gameObject);
-
-                chessPieces[x, y] = null;
-                tiles[x, y].layer = LayerMask.NameToLayer("Tile");
-            }
-        }
-
-        for (int i = 0; i < deadWhites.Count; i++)
-            Destroy(deadWhites[i].gameObject);
-        for (int i = 0; i < deadBlacks.Count; i++)
-            Destroy(deadBlacks[i].gameObject);
-
-        deadWhites.Clear();
-        deadBlacks.Clear();
-
-        // Spawn Pieces
+        CleanUpGame();
         StartGame();
     }
 
@@ -938,8 +903,48 @@ public class Chessboard : MonoBehaviour
             case 4: timeLimit = 1800; break;
         }
 
+        // Spawn pieces
         SpawnAllPieces();
         PositionAllPieces();
         isWhiteTurn = true;
+    }
+
+    private void CleanUpGame()
+    {
+        // Hide UI
+        victoryScreen.transform.GetChild(0).gameObject.SetActive(false);
+        victoryScreen.transform.GetChild(1).gameObject.SetActive(false);
+        victoryScreen.SetActive(false);
+
+        // Show Mid-Game UI
+        midGameUI.SetActive(true);
+
+        // Field Reset
+        currentlyDragging = null;
+        availableMoves.Clear();
+        moveList.Clear();
+        currentSelecting = -Vector2Int.one;
+        isJumpCapture = false;
+
+        // Clean Up
+        for (int x = 0; x < TILE_COUNT_X; x++)
+        {
+            for (int y = 0; y < TILE_COUNT_Y; y++)
+            {
+                if (chessPieces[x, y] != null)
+                    Destroy(chessPieces[x, y].gameObject);
+
+                chessPieces[x, y] = null;
+                tiles[x, y].layer = LayerMask.NameToLayer("Tile");
+            }
+        }
+
+        for (int i = 0; i < deadWhites.Count; i++)
+            Destroy(deadWhites[i].gameObject);
+        for (int i = 0; i < deadBlacks.Count; i++)
+            Destroy(deadBlacks[i].gameObject);
+
+        deadWhites.Clear();
+        deadBlacks.Clear();
     }
 }

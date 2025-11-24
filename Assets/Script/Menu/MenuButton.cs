@@ -13,4 +13,12 @@ public class MenuButton : MonoBehaviour
         if (midGameUI != null)
             midGameUI.SetActive(true);
     }
+
+    public void OnShowMenuButton()
+    {
+        if (mainMenuUI != null)
+            mainMenuUI.SetActive(true);
+        if (midGameUI != null)
+            midGameUI.SetActive(false);
+    }
 }
