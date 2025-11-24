@@ -3624,8 +3624,8 @@ MonoBehaviour:
   boardCenter: {x: 0, y: 4.4, z: 0}
   deathSize: 1.75
   deathSpacing: 0.37
-  victoryScreen: {fileID: 0}
-  midGameUI: {fileID: 0}
+  victoryScreen: {fileID: 931466414}
+  midGameUI: {fileID: 1007902002}
   mainCamera: {fileID: 519420032}
   prefabs:
   - {fileID: 5613462401677398894, guid: be5cda430beef44559a07c1396f7a22d, type: 3}
@@ -3639,6 +3639,8 @@ MonoBehaviour:
   chessBoardSprite:
   - {fileID: 1763014460331064234, guid: 7a79e02283fc2455eac5217a0ce8e78f, type: 3}
   - {fileID: 2908342701436633435, guid: 31a659ee4f95e4df59af995efcd294fc, type: 3}
+  sideSelector: {fileID: 1649355657}
+  timeSelector: {fileID: 308598576}
 --- !u!212 &975536235
 SpriteRenderer:
   m_ObjectHideFlags: 0

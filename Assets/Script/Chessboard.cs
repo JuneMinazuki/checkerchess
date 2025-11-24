@@ -30,6 +30,10 @@ public class Chessboard : MonoBehaviour
     [SerializeField] private GameObject[] prefabs;
     [SerializeField] private Sprite[] chessBoardSprite;
 
+    [Header("Selectors")]
+    [SerializeField] public SlidingSelector sideSelector;
+    [SerializeField] public SlidingSelector timeSelector;
+
     // UI Object
     private SpriteRenderer chessBoardRenderer;
 
@@ -51,17 +55,16 @@ public class Chessboard : MonoBehaviour
     private HashSet<SpecialMove> specialMoves;
     private bool isJumpCapture = false;
     private bool boardFlipped = false;
+    private bool isWhiteChess = true;
+    private int timeLimit;
 
     private void Awake()
     {
         chessBoardRenderer = GetComponent<SpriteRenderer>();
 
-        isWhiteTurn = true;
-
         GenerateAllTiles(tileSize, TILE_COUNT_X, TILE_COUNT_Y);
 
-        SpawnAllPieces();
-        PositionAllPieces();
+        StartGame();
     }
 
     private void Update()
@@ -235,25 +238,72 @@ public class Chessboard : MonoBehaviour
 
         int whiteTeam = 0, blackTeam = 1;
 
-        //Chess Team
-        chessPieces[1, 1] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
-        chessPieces[2, 1] = SpawnSinglePiece(ChessPieceType.Knight, whiteTeam);
-        chessPieces[3, 1] = SpawnSinglePiece(ChessPieceType.Bishop, whiteTeam);
-        chessPieces[4, 1] = SpawnSinglePiece(ChessPieceType.Queen, whiteTeam);
-        chessPieces[5, 1] = SpawnSinglePiece(ChessPieceType.King, whiteTeam);
-        chessPieces[6, 1] = SpawnSinglePiece(ChessPieceType.Bishop, whiteTeam);
-        chessPieces[7, 1] = SpawnSinglePiece(ChessPieceType.Knight, whiteTeam);
-        chessPieces[8, 1] = SpawnSinglePiece(ChessPieceType.Rook, whiteTeam);
-        for (int i = 1; i < TILE_COUNT_X - 1; i++)
-            chessPieces[i, 2] = SpawnSinglePiece(ChessPieceType.Pawn, whiteTeam);
+        if (isWhiteChess)
+        {
+            SpawnChess(whiteTeam);
+            SpawnChecker(blackTeam);
+        }
+        else
+        {
+            SpawnChess(blackTeam);
+            SpawnChecker(whiteTeam);
+        }
+    }
 
-        //Checker Team
-        for (int i = 1; i < TILE_COUNT_X - 1; i += 2)
-            chessPieces[i, 8] = SpawnSinglePiece(ChessPieceType.QueenChecker, blackTeam);
-        for (int i = 2; i < TILE_COUNT_X - 1; i += 2)
-            chessPieces[i, 7] = SpawnSinglePiece(ChessPieceType.Checker, blackTeam);
-        for (int i = 1; i < TILE_COUNT_X - 1; i += 2)
-            chessPieces[i, 6] = SpawnSinglePiece(ChessPieceType.Checker, blackTeam);
+    private void SpawnChess(int team)
+    {
+        // White side
+        if (team == 0)
+        {
+            chessPieces[1, 1] = SpawnSinglePiece(ChessPieceType.Rook, team);
+            chessPieces[2, 1] = SpawnSinglePiece(ChessPieceType.Knight, team);
+            chessPieces[3, 1] = SpawnSinglePiece(ChessPieceType.Bishop, team);
+            chessPieces[4, 1] = SpawnSinglePiece(ChessPieceType.Queen, team);
+            chessPieces[5, 1] = SpawnSinglePiece(ChessPieceType.King, team);
+            chessPieces[6, 1] = SpawnSinglePiece(ChessPieceType.Bishop, team);
+            chessPieces[7, 1] = SpawnSinglePiece(ChessPieceType.Knight, team);
+            chessPieces[8, 1] = SpawnSinglePiece(ChessPieceType.Rook, team);
+            for (int i = 1; i < TILE_COUNT_X - 1; i++)
+                chessPieces[i, 2] = SpawnSinglePiece(ChessPieceType.Pawn, team);
+        }
+        // Black side
+        else if (team == 1)
+        {
+            chessPieces[1, 8] = SpawnSinglePiece(ChessPieceType.Rook, team);
+            chessPieces[2, 8] = SpawnSinglePiece(ChessPieceType.Knight, team);
+            chessPieces[3, 8] = SpawnSinglePiece(ChessPieceType.Bishop, team);
+            chessPieces[4, 8] = SpawnSinglePiece(ChessPieceType.Queen, team);
+            chessPieces[5, 8] = SpawnSinglePiece(ChessPieceType.King, team);
+            chessPieces[6, 8] = SpawnSinglePiece(ChessPieceType.Bishop, team);
+            chessPieces[7, 8] = SpawnSinglePiece(ChessPieceType.Knight, team);
+            chessPieces[8, 8] = SpawnSinglePiece(ChessPieceType.Rook, team);
+            for (int i = 1; i < TILE_COUNT_X - 1; i++)
+                chessPieces[i, 7] = SpawnSinglePiece(ChessPieceType.Pawn, team);
+        }
+    }
+
+    private void SpawnChecker(int team)
+    {
+        // White side
+        if (team == 0)
+        {
+            for (int i = 1; i < TILE_COUNT_X - 1; i += 2)
+                chessPieces[i, 1] = SpawnSinglePiece(ChessPieceType.QueenChecker, team);
+            for (int i = 2; i < TILE_COUNT_X - 1; i += 2)
+                chessPieces[i, 2] = SpawnSinglePiece(ChessPieceType.Checker, team);
+            for (int i = 1; i < TILE_COUNT_X - 1; i += 2)
+                chessPieces[i, 3] = SpawnSinglePiece(ChessPieceType.Checker, team);
+        }
+        // Black side
+        else if (team == 1)
+        {
+            for (int i = 1; i < TILE_COUNT_X - 1; i += 2)
+                chessPieces[i, 8] = SpawnSinglePiece(ChessPieceType.QueenChecker, team);
+            for (int i = 2; i < TILE_COUNT_X - 1; i += 2)
+                chessPieces[i, 7] = SpawnSinglePiece(ChessPieceType.Checker, team);
+            for (int i = 1; i < TILE_COUNT_X - 1; i += 2)
+                chessPieces[i, 6] = SpawnSinglePiece(ChessPieceType.Checker, team);
+        }
     }
 
     private ChessPiece SpawnSinglePiece(ChessPieceType type, int team)
@@ -374,9 +424,7 @@ public class Chessboard : MonoBehaviour
         deadBlacks.Clear();
 
         // Spawn Pieces
-        SpawnAllPieces();
-        PositionAllPieces();
-        isWhiteTurn = true;
+        StartGame();
     }
 
     public void OnEndTurnButton()
@@ -866,5 +914,25 @@ public class Chessboard : MonoBehaviour
             cp.desiredRotation = rotation;
             cp.FlipPosition();
         }
+    }
+
+    private void StartGame()
+    {
+        // Selector option
+        isWhiteChess = sideSelector.selectedIndex == 0;
+        int timeIndex = timeSelector.selectedIndex;
+
+        switch (timeIndex)
+        {
+            case 0: timeLimit = -1; break;
+            case 1: timeLimit = 300; break;
+            case 2: timeLimit = 600; break;
+            case 3: timeLimit = 900; break;
+            case 4: timeLimit = 1800; break;
+        }
+
+        SpawnAllPieces();
+        PositionAllPieces();
+        isWhiteTurn = true;
     }
 }
