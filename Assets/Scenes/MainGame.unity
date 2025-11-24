@@ -1924,7 +1924,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 359057281}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1835216118}
+        m_TargetAssemblyTypeName: SlidingPanel, Assembly-CSharp
+        m_MethodName: TogglePanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &359057281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2996,7 +3008,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 724841028}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1835216118}
+        m_TargetAssemblyTypeName: SlidingPanel, Assembly-CSharp
+        m_MethodName: TogglePanel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &724841028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6244,6 +6268,7 @@ GameObject:
   - component: {fileID: 1835216115}
   - component: {fileID: 1835216117}
   - component: {fileID: 1835216116}
+  - component: {fileID: 1835216118}
   m_Layer: 5
   m_Name: Game Setup Panel
   m_TagString: Untagged
@@ -6270,10 +6295,10 @@ RectTransform:
   - {fileID: 1697019703}
   m_Father: {fileID: 1702793795}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -435.9928, y: -185.2003}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: -1018}
+  m_SizeDelta: {x: 1484.0072, y: 894.7997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1835216116
 MonoBehaviour:
@@ -6313,6 +6338,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1835216114}
   m_CullTransparentMesh: 1
+--- !u!114 &1835216118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835216114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a15b9b79cc6241929ee78352c0b8c58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SlidingPanel
+  hiddenPosition: {x: 0, y: -1018}
+  shownPosition: {x: 0, y: 0}
+  slideSpeed: 5000
+  isShown: 0
 --- !u!1 &1842126329
 GameObject:
   m_ObjectHideFlags: 0
