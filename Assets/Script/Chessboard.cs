@@ -31,8 +31,9 @@ public class Chessboard : MonoBehaviour
     [SerializeField] private Sprite[] chessBoardSprite;
 
     [Header("Selectors")]
-    [SerializeField] public SlidingSelector sideSelector;
-    [SerializeField] public SlidingSelector timeSelector;
+    [SerializeField] private SlidingSelector sideSelector;
+    [SerializeField] private SlidingSelector timeSelector;
+    [SerializeField] private SlidingSelector autoFlipSelector;
 
     // UI Object
     private SpriteRenderer chessBoardRenderer;
@@ -56,8 +57,11 @@ public class Chessboard : MonoBehaviour
     private bool isJumpCapture = false;
     private bool boardFlipped = false;
     private bool gameStart = false;
+
+    // Game Preferences
     private bool isWhiteChess = true;
     private int timeLimit;
+    private bool autoFlip;
 
     private void Awake()
     {
@@ -893,6 +897,7 @@ public class Chessboard : MonoBehaviour
         // Selector option
         isWhiteChess = sideSelector.selectedIndex == 0;
         int timeIndex = timeSelector.selectedIndex;
+        autoFlip = autoFlipSelector.selectedIndex == 0;
 
         switch (timeIndex)
         {

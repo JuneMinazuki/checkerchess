@@ -1558,6 +1558,7 @@ MonoBehaviour:
   - {fileID: 1202450444}
   - {fileID: 384104553}
   - {fileID: 2051627839}
+  defaultOption: 0
   slideSpeed: 10
   selectedIndex: 0
 --- !u!1 &312678961
@@ -5057,6 +5058,8 @@ MonoBehaviour:
   - {fileID: 2908342701436633435, guid: 31a659ee4f95e4df59af995efcd294fc, type: 3}
   sideSelector: {fileID: 1649355657}
   timeSelector: {fileID: 308598576}
+  musicSelector: {fileID: 1042129823}
+  autoFlipSelector: {fileID: 2067984332}
 --- !u!212 &975536235
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5589,6 +5592,7 @@ MonoBehaviour:
   options:
   - {fileID: 1921663176}
   - {fileID: 617313536}
+  defaultOption: 0
   slideSpeed: 10
   selectedIndex: 0
 --- !u!114 &1042129824
@@ -7635,6 +7639,7 @@ MonoBehaviour:
   options:
   - {fileID: 1423903533}
   - {fileID: 2038159899}
+  defaultOption: 0
   slideSpeed: 10
   selectedIndex: 0
 --- !u!1 &1652635484
@@ -10197,8 +10202,9 @@ MonoBehaviour:
   options:
   - {fileID: 1480586758}
   - {fileID: 341419731}
+  defaultOption: 1
   slideSpeed: 10
-  selectedIndex: 0
+  selectedIndex: 1
 --- !u!114 &2067984333
 MonoBehaviour:
   m_ObjectHideFlags: 0

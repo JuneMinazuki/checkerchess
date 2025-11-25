@@ -5,6 +5,7 @@ public class SlidingSelector : MonoBehaviour
     [Header("UI Elements")]
     public RectTransform highlighter;
     public RectTransform[] options;
+    public int defaultOption;
 
     [Header("Settings")]
     public float slideSpeed = 10f;
@@ -20,7 +21,7 @@ public class SlidingSelector : MonoBehaviour
             //Force Unity to calculate the layouts
             Canvas.ForceUpdateCanvases();
 
-            SetOption(0);
+            SetOption(defaultOption);
             if (currentTargetButton != null)
                 highlighter.position = currentTargetButton.position;
         }
