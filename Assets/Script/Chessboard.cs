@@ -157,6 +157,7 @@ public class Chessboard : MonoBehaviour
 
                     if (!validMove)
                     {
+                        // Switch piece player select if they are on the same team
                         if (chessPieces[hitPosition.x, hitPosition.y] != null && currentlyDragging.team == chessPieces[hitPosition.x, hitPosition.y].team && !isJumpCapture)
                         {
                             currentlyDragging = chessPieces[hitPosition.x, hitPosition.y];
@@ -412,42 +413,15 @@ public class Chessboard : MonoBehaviour
         midGameUI.transform.GetChild(0).gameObject.SetActive(false);
 
         currentlyDragging = null;
+
+        // Auto flip board
+        if (autoFlip && (isWhiteTurn == boardFlipped))
+            FlipBoard();
     }
 
     public void OnFlipBoardButton()
     {
-        // Get all pieces position
-        List<ChessPiece> pieces = new();
-
-        for (int x = 0; x < TILE_COUNT_X; x++)
-        {
-            for (int y = 0; y < TILE_COUNT_Y; y++)
-            {
-                if (chessPieces[x, y] != null)
-                    pieces.Add(chessPieces[x, y]);
-            }
-        }
-
-        if (boardFlipped)
-        {
-            mainCamera.rotation = Quaternion.identity;
-            chessBoardRenderer.sprite = chessBoardSprite[0];
-
-            FlipPieces(pieces, Quaternion.identity);
-            FlipPieces(deadBlacks, Quaternion.identity);
-            FlipPieces(deadWhites, Quaternion.identity);
-        }
-        else
-        {
-            mainCamera.rotation = Quaternion.Euler(0, 0, 180);
-            chessBoardRenderer.sprite = chessBoardSprite[1];
-
-            FlipPieces(pieces, Quaternion.Euler(0, 0, 180));
-            FlipPieces(deadBlacks, Quaternion.Euler(0, 0, 180));
-            FlipPieces(deadWhites, Quaternion.Euler(0, 0, 180));
-        }
-
-        boardFlipped = !boardFlipped;
+        FlipBoard();
     }
 
     //Special Moves
@@ -870,6 +844,10 @@ public class Chessboard : MonoBehaviour
         midGameUI.transform.GetChild(0).gameObject.SetActive(false);
         isJumpCapture = false;
 
+        // Auto flip board
+        if (autoFlip && (isWhiteTurn == boardFlipped))
+            Invoke(nameof(FlipBoard), 0.7f);
+
         return true;
     }
 
@@ -951,5 +929,41 @@ public class Chessboard : MonoBehaviour
 
         deadWhites.Clear();
         deadBlacks.Clear();
+    }
+
+    private void FlipBoard()
+    {
+        // Get all pieces position
+        List<ChessPiece> pieces = new();
+
+        for (int x = 0; x < TILE_COUNT_X; x++)
+        {
+            for (int y = 0; y < TILE_COUNT_Y; y++)
+            {
+                if (chessPieces[x, y] != null)
+                    pieces.Add(chessPieces[x, y]);
+            }
+        }
+
+        if (boardFlipped)
+        {
+            mainCamera.rotation = Quaternion.identity;
+            chessBoardRenderer.sprite = chessBoardSprite[0];
+
+            FlipPieces(pieces, Quaternion.identity);
+            FlipPieces(deadBlacks, Quaternion.identity);
+            FlipPieces(deadWhites, Quaternion.identity);
+        }
+        else
+        {
+            mainCamera.rotation = Quaternion.Euler(0, 0, 180);
+            chessBoardRenderer.sprite = chessBoardSprite[1];
+
+            FlipPieces(pieces, Quaternion.Euler(0, 0, 180));
+            FlipPieces(deadBlacks, Quaternion.Euler(0, 0, 180));
+            FlipPieces(deadWhites, Quaternion.Euler(0, 0, 180));
+        }
+
+        boardFlipped = !boardFlipped;
     }
 }
