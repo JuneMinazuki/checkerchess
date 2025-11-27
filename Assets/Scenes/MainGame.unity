@@ -5876,6 +5876,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1138638791}
   - component: {fileID: 1138638792}
+  - component: {fileID: 1138638793}
   m_Layer: 0
   m_Name: Background Music
   m_TagString: Untagged
@@ -5911,7 +5912,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 657dc375540b14fbebc1ba1cf5e2c5bb, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.25
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5995,6 +5996,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1138638793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138638790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6dce7ea471853487582fa80d0ca000b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MuteBackground
+  soundSelector: {fileID: 1042129823}
 --- !u!1 &1198673316
 GameObject:
   m_ObjectHideFlags: 0

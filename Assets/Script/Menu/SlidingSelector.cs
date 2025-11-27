@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class SlidingSelector : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class SlidingSelector : MonoBehaviour
 
     public int selectedIndex = 0;
     private RectTransform currentTargetButton;
+    public event Action<int> OnSelectionChanged;
 
     void Start()
     {
@@ -44,5 +46,8 @@ public class SlidingSelector : MonoBehaviour
     {
         selectedIndex = index;
         currentTargetButton = options[index];
+
+        // Send signal to other game object
+        OnSelectionChanged?.Invoke(index);
     }
 }
