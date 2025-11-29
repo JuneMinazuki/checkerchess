@@ -29,6 +29,25 @@ public class SlidingPanel : MonoBehaviour
         }
     }
 
+    void OnDisable()
+    {
+        // Reset panel state
+        isShown = false; 
+        currentAnimation = null;
+        
+        // Snap positions just in case it was disabled mid-animation
+        if (rectTransform == null)
+            rectTransform = GetComponent<RectTransform>();
+
+        rectTransform.anchoredPosition = hiddenPosition;
+        
+        if (backgroundDimmer != null)
+        {
+            backgroundDimmer.alpha = 0f;
+            backgroundDimmer.blocksRaycasts = false;
+        }
+    }
+
     public void TogglePanel()
     {
         if (isShown)
