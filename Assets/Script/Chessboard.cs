@@ -32,7 +32,6 @@ public class Chessboard : MonoBehaviour
 
     [Header("Selectors")]
     [SerializeField] private SlidingSelector sideSelector;
-    [SerializeField] private SlidingSelector timeSelector;
     [SerializeField] private SlidingSelector autoFlipSelector;
 
     // UI Object
@@ -874,18 +873,8 @@ public class Chessboard : MonoBehaviour
     {
         // Selector option
         isWhiteChess = sideSelector.selectedIndex == 0;
-        int timeIndex = timeSelector.selectedIndex;
         autoFlip = autoFlipSelector.selectedIndex == 0;
-
-        switch (timeIndex)
-        {
-            case 0: timeLimit = -1; break;
-            case 1: timeLimit = 300; break;
-            case 2: timeLimit = 600; break;
-            case 3: timeLimit = 900; break;
-            case 4: timeLimit = 1800; break;
-        }
-
+        
         // Spawn pieces
         SpawnAllPieces();
         PositionAllPieces();
