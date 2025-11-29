@@ -55,11 +55,10 @@ public class Chessboard : MonoBehaviour
     private HashSet<SpecialMove> specialMoves;
     private bool isJumpCapture = false;
     private bool boardFlipped = false;
-    private bool gameStart = false;
+    private bool inputActive = false;
 
     // Game Preferences
     private bool isWhiteChess = true;
-    private int timeLimit;
     private bool autoFlip;
 
     private void Awake()
@@ -77,7 +76,7 @@ public class Chessboard : MonoBehaviour
             return;
         }
 
-        if (gameStart)
+        if (inputActive)
         {
             // If a mouse is present and being used
             if (Mouse.current != null)
@@ -387,18 +386,20 @@ public class Chessboard : MonoBehaviour
     // Button Logic
     public void OnStartButton()
     {
-        gameStart = true;
+        inputActive = true;
         StartGame();
     }
 
     public void OnExitButton()
     {
-        gameStart = false;
+        inputActive = false;
         CleanUpGame();
     }
 
     public void OnResetButton()
     {
+        inputActive = true;
+        
         CleanUpGame();
         StartGame();
     }
@@ -421,6 +422,11 @@ public class Chessboard : MonoBehaviour
     public void OnFlipBoardButton()
     {
         FlipBoard();
+    }
+
+    public void CheckForInput(bool check)
+    {
+        inputActive = check;
     }
 
     //Special Moves
@@ -874,7 +880,7 @@ public class Chessboard : MonoBehaviour
         // Selector option
         isWhiteChess = sideSelector.selectedIndex == 0;
         autoFlip = autoFlipSelector.selectedIndex == 0;
-        
+
         // Spawn pieces
         SpawnAllPieces();
         PositionAllPieces();
