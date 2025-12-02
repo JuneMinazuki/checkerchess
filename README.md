@@ -12,8 +12,8 @@ The chess pieces operate under their traditional movement rules, but with the mo
 
 ## Releases 🕹
 [![Itch.io](https://img.shields.io/badge/Itch-%23FF0B34.svg?style=for-the-badge&logo=Itch.io&logoColor=white)](https://june6919.itch.io/checker-chess)
-[![MacOS](https://img.shields.io/badge/MacOS-292929.svg?style=for-the-badge&logo=Apple&logoColor=white)]()
-[![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)]()
+[![MacOS](https://img.shields.io/badge/MacOS-292929.svg?style=for-the-badge&logo=Apple&logoColor=white)](https://github.com/JuneMinazuki/checkerchess/releases/download/v1.0/checkerchess_v1.0_macos.dmg)
+[![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/JuneMinazuki/checkerchess/releases/download/v1.0/checkerchess_v1.0_windows.zip)
 
 Welcome to the official launch of Checker Chess. Other than playing this game on browser, you can also download this game and play it locally without internet!
 
