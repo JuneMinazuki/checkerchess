@@ -12,13 +12,13 @@ The chess pieces operate under their traditional movement rules, but with the mo
 
 ## Releases 🕹
 [![Itch.io](https://img.shields.io/badge/Itch-%23FF0B34.svg?style=for-the-badge&logo=Itch.io&logoColor=white)](https://june6919.itch.io/checker-chess)
+[![MacOS](https://img.shields.io/badge/MacOS-292929.svg?style=for-the-badge&logo=Apple&logoColor=white)]()
+[![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)]()
 
-This game is still under development, all pre-released version will be available only on WebGL. MacOS, Linux and Window support will be availble once the game is complete. Current version: Pre-released v0.3
-
-## What's New: Pre-released v0.3 ✨
-1. **Castling:** This allows you to move your king two spaces towards a rook, and then place the rook on the last space that the king passed. 
-2. **Promotion:** If your pawn makes it all the way to the opposite side of the board, your chess pieces will be promoted to a queen, and your checker pieces will become a queen checker automatically. This will fix an issue where pawn and checker are stuck at the last row in the previous version.
-3. **Check Prevention:** The game will not allow any moves you make to break the rule not to put your own king into check.
+Welcome to the official launch of Checker Chess. Other than playing this game on browser, you can also download this game and play it locally without internet!
 
 ## Screenshots 📸
-<img width="1160" alt="checherchess_0 3_thumbnail" src="https://github.com/user-attachments/assets/1a4e4b05-30d8-4635-b988-5d46babdada9" />
+
+<img width="1160" alt="checherchess_1.0_thumbnail1" src="https://github.com/user-attachments/assets/8ebf88fc-4c1d-4ff4-9c3b-319138b75d08" />
+<img width="1160" alt="checherchess_1.0_thumbnail2" src="https://github.com/user-attachments/assets/48ba326f-f778-4b72-99ef-e193c1c94049" />
+<img width="1160" alt="checherchess_1.0_thumbnail3" src="https://github.com/user-attachments/assets/3fe70326-450a-4d3a-84a1-b0ff574ae70f" />
